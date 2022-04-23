@@ -1,8 +1,8 @@
 import { Patient } from "../../entities/patient"
-import { IPatientRepo } from "../repositoriesInterface"
+import { IPatientCRUDRepo } from "../repositoriesInterface"
 import { prisma } from "../../database"
 
-export class PatientRepo implements IPatientRepo {
+export class PatientRepo implements IPatientCRUDRepo {
 	async create(patient: Patient): Promise<Patient> {
 		return await prisma.pacient.create({
 			data: patient,
