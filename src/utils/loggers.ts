@@ -1,5 +1,5 @@
-const logInfo = (info: any) => console.log("Info: ", info)
+const logInfo = (info: any) => console.log(`${Date()} - Info: `, info)
 
-const logErr = (err: any) => console.error("Error: ", err)
+const logErr = (err: any) => console.error(`${Date()} - Error: `, err)
 
 export { logInfo, logErr }
