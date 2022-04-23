@@ -1,7 +1,7 @@
 export interface ICRUDRepo<T> {
 	create(data: T): Promise<T>
-	findOne(id: string): Promise<T>
-	exists(name: string): Promise<boolean>
+	findById(id: string): Promise<T>
+	findOne(name: string): Promise<T>
 	delete(id: string): Promise<boolean>
 	update(id: string, data: T): Promise<T>
 }

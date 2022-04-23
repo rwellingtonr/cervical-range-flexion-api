@@ -14,11 +14,11 @@ export class PhysiotherapistRepo implements ICRUDRepo<Physiotherapist> {
 			where: { id },
 		})
 	}
-	async exists(name: string): Promise<boolean> {
-		const user = await prisma.physiotherapist.findFirst({ where: { name } })
-		return !!user
+	async findOne(coffito: string): Promise<Physiotherapist> {
+		const user = await prisma.physiotherapist.findFirst({ where: { coffito } })
+		return user
 	}
-	async findOne(id: string): Promise<Physiotherapist> {
+	async findById(id: string): Promise<Physiotherapist> {
 		return await prisma.physiotherapist.findFirst({
 			where: { id },
 		})

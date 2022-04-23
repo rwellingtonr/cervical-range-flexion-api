@@ -6,7 +6,7 @@ export class PhysiotherapistService {
 	constructor(private repo: PhysiotherapistRepo) {}
 
 	async register(userInfo: Physiotherapist) {
-		const alreadyExists = await this.repo.exists(userInfo.name)
+		const alreadyExists = await this.repo.findOne(userInfo.coffito)
 
 		if (alreadyExists) throw new Error("This physiotherapist already exists")
 
@@ -23,12 +23,8 @@ export class PhysiotherapistService {
 		return physiotherapist
 	}
 
-	async unregister(id: string) {
-		return await this.repo.delete(id)
-	}
-
 	async updatePassword(id: string, newPassword: string) {
-		const prevData = await this.repo.findOne(id)
+		const prevData = await this.repo.findById(id)
 
 		if (!prevData) throw new Error("Could not find this professional")
 
@@ -41,5 +37,8 @@ export class PhysiotherapistService {
 		const updateData = { ...prevData, password: hash }
 
 		return await this.repo.update(id, updateData)
+	}
+	async unregister(id: string) {
+		return await this.repo.delete(id)
 	}
 }
