@@ -1,4 +1,4 @@
-import { serverHttp } from "./app/app"
+import { serverHttp } from "./app"
 import { logInfo } from "./utils/loggers"
 
 const { PORT } = process.env

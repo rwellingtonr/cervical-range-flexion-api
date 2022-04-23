@@ -13,9 +13,9 @@ CREATE TABLE "patientData" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "measurement_date" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "score" INTEGER NOT NULL,
-    "pacient_id" TEXT NOT NULL,
+    "patient_id" TEXT NOT NULL,
     "physio_coffito" TEXT NOT NULL,
-    CONSTRAINT "patientData_pacient_id_fkey" FOREIGN KEY ("pacient_id") REFERENCES "patients" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
+    CONSTRAINT "patientData_patient_id_fkey" FOREIGN KEY ("patient_id") REFERENCES "patients" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
     CONSTRAINT "patientData_physio_coffito_fkey" FOREIGN KEY ("physio_coffito") REFERENCES "physiotherapists" ("coffito") ON DELETE RESTRICT ON UPDATE CASCADE
 );
 

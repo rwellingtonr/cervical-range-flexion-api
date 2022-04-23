@@ -4,6 +4,8 @@ import cors from "cors"
 import { createServer } from "http"
 import { errorHandling } from "../middleware/errorHandling"
 
+import "../router"
+
 const app = express()
 
 app.use(express.json())
@@ -11,4 +13,5 @@ app.use(cors())
 app.use(errorHandling)
 
 const serverHttp = createServer(app)
-export { serverHttp }
+
+export { serverHttp, app }
