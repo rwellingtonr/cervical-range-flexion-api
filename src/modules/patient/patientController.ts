@@ -18,7 +18,9 @@ export class PatientController {
 		try {
 			const patient: Patient = req.body
 
-			return res.status(201).json()
+			const user = await this.patientRepo.create(patient)
+
+			return res.status(201).json(user)
 		} catch (error) {
 			logErr(error.message)
 			return res.status(400).json({ error: error.message })
@@ -27,7 +29,9 @@ export class PatientController {
 
 	async searchAll(req: Request, res: Response) {
 		try {
-			return res.status(200).json()
+			const patients = await this.patientServices.searchAll()
+
+			return res.status(200).json(patients)
 		} catch (error) {
 			logErr(error.message)
 			return res.status(400).json({ error: error.message })
@@ -36,7 +40,11 @@ export class PatientController {
 
 	async searchOne(req: Request, res: Response) {
 		try {
-			return res.status(200).json()
+			const { patientId } = req.params
+
+			const patient = await this.patientServices.findOne(patientId)
+
+			return res.status(200).json(patient)
 		} catch (error) {
 			logErr(error.message)
 			return res.status(404).json({ error: error.message })
@@ -44,7 +52,11 @@ export class PatientController {
 	}
 	async unregister(req: Request, res: Response) {
 		try {
-			return res.status(200).json()
+			const { patientId } = req.params
+
+			await this.patientServices.unregister(patientId)
+
+			return res.status(200).send()
 		} catch (error) {
 			logErr(error.message)
 			return res.status(404).json({ error: error.message })

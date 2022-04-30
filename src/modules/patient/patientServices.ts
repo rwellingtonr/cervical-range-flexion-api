@@ -5,7 +5,7 @@ export class PatientServices {
 	constructor(private patientRepo: PatientRepo) {}
 
 	async create(patient: Patient) {
-		const isDuplicated = this.patientRepo.exists(patient.name)
+		const isDuplicated = this.patientRepo.exists(patient.name.toLowerCase())
 
 		if (isDuplicated) throw new Error("This patient already exists")
 
