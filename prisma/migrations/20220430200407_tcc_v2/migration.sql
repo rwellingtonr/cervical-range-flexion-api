@@ -5,7 +5,7 @@ CREATE TABLE "patients" (
     "cpf" INTEGER NOT NULL,
     "gender" TEXT NOT NULL,
     "bithday" DATETIME NOT NULL,
-    "sugery_date" DATETIME NOT NULL
+    "surgery_date" DATETIME NOT NULL
 );
 
 -- CreateTable

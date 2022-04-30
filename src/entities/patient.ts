@@ -3,8 +3,8 @@ export class Patient {
 	cpf: number
 	name: string
 	gender: string
-	sugery_date: Date
-	bithday: Date
+	surgery_date: Date
+	birthday: Date
 
 	private constructor(props: Patient) {
 		Object.assign(this, props)

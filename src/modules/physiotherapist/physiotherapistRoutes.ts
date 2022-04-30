@@ -3,7 +3,7 @@ import { PhysiotherapistController } from "./physiotherapistController"
 
 const controller = new PhysiotherapistController()
 
-const physiotherapistRoutes = (app: Application): void => {
+const physiotherapistRoutes = (app: Application) => {
 	app.route("/physiotherapist").post(controller.createProfessional)
 
 	app

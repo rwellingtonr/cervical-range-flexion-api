@@ -1,3 +1,5 @@
+import { hashPassword } from "../utils/bcrypt"
+
 export class Physiotherapist {
 	id?: string
 	name: string
@@ -8,8 +10,9 @@ export class Physiotherapist {
 		Object.assign(this, props)
 	}
 
-	static create(physioInfo: Physiotherapist): Physiotherapist {
-		const patient = new Physiotherapist(physioInfo)
+	static async create(physioInfo: Physiotherapist): Promise<Physiotherapist> {
+		const hash = hashPassword(physioInfo.password)
+		const patient = new Physiotherapist({ ...physioInfo, password: hash })
 		return patient
 	}
 }

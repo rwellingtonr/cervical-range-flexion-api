@@ -5,7 +5,6 @@ interface IPayload {
 	sub: string
 }
 
-// It must check if the user is authenticated
 export default function ensureAuthenticated(req: Request, resp: Response, next: NextFunction) {
 	try {
 		const authToken = req.headers.authorization
@@ -15,7 +14,7 @@ export default function ensureAuthenticated(req: Request, resp: Response, next: 
 			})
 		}
 
-		const [, token] = authToken.split(" ")
+		const [_, token] = authToken.split(" ")
 
 		const { sub } = verify(token, process.env.JWT_SECRET) as IPayload
 		req.physiotherapist_id = sub

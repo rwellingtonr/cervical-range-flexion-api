@@ -1,5 +1,7 @@
-const logInfo = (info: any) => console.log(`${Date()} - Info: `, info)
+const time = () => new Date().toLocaleTimeString()
 
-const logErr = (err: any) => console.error(`${Date()} - Error: `, err)
+const logInfo = (...info: any[]) => console.log(`[Info] at ${time()}: `, ...info)
+
+const logErr = (...err: any[]) => console.error(`[Error] at ${time()}: `, ...err)
 
 export { logInfo, logErr }

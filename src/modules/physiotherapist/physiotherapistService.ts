@@ -1,6 +1,6 @@
 import { Physiotherapist } from "../../entities/physiotherapist"
 import { PhysiotherapistRepo } from "../../repositories/physiotherapistRepo/physiotherapistRepo"
-import { hashPassword, decrypt } from "../../utils/bcrypt"
+import { decrypt, hashPassword } from "../../utils/bcrypt"
 
 export class PhysiotherapistService {
 	constructor(private repo: PhysiotherapistRepo) {}
@@ -10,9 +10,9 @@ export class PhysiotherapistService {
 
 		if (alreadyExists) throw new Error("This physiotherapist already exists")
 
-		const hash = await hashPassword(userInfo.password)
+		const user = await Physiotherapist.create(userInfo)
 
-		return await this.repo.create({ ...userInfo, password: hash })
+		return await this.repo.create(user)
 	}
 
 	async findProfessional(id: string) {
