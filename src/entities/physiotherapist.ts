@@ -10,9 +10,16 @@ export class Physiotherapist {
 		Object.assign(this, props)
 	}
 
-	static async create(physioInfo: Physiotherapist): Promise<Physiotherapist> {
-		const hash = hashPassword(physioInfo.password)
-		const patient = new Physiotherapist({ ...physioInfo, password: hash })
+	static async create({ coffito, name, password }: Physiotherapist): Promise<Physiotherapist> {
+		const hash = await hashPassword(password)
+
+		const content = {
+			name: name.toLowerCase(),
+			password: hash,
+			coffito,
+		}
+
+		const patient = new Physiotherapist(content)
 		return patient
 	}
 }

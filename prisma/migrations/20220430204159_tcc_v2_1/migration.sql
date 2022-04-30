@@ -4,7 +4,7 @@ CREATE TABLE "patients" (
     "name" TEXT NOT NULL,
     "cpf" INTEGER NOT NULL,
     "gender" TEXT NOT NULL,
-    "bithday" DATETIME NOT NULL,
+    "birthday" DATETIME NOT NULL,
     "surgery_date" DATETIME NOT NULL
 );
 

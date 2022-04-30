@@ -3,20 +3,20 @@ import { PhysiotherapistRepo } from "../../repositories/physiotherapistRepo/phys
 import { decrypt, hashPassword } from "../../utils/bcrypt"
 
 export class PhysiotherapistService {
-	constructor(private repo: PhysiotherapistRepo) {}
+	constructor(private physiotherapistRepo: PhysiotherapistRepo) {}
 
 	async register(userInfo: Physiotherapist) {
-		const alreadyExists = await this.repo.findOne(userInfo.coffito)
+		const alreadyExists = await this.physiotherapistRepo.findOne(userInfo.coffito)
 
 		if (alreadyExists) throw new Error("This physiotherapist already exists")
 
 		const user = await Physiotherapist.create(userInfo)
 
-		return await this.repo.create(user)
+		return await this.physiotherapistRepo.create(user)
 	}
 
 	async findProfessional(id: string) {
-		const physiotherapist = await this.repo.findOne(id)
+		const physiotherapist = await this.physiotherapistRepo.findOne(id)
 
 		if (!physiotherapist) throw new Error("Could not find this professional")
 
@@ -24,7 +24,7 @@ export class PhysiotherapistService {
 	}
 
 	async updatePassword(id: string, newPassword: string) {
-		const prevData = await this.repo.findById(id)
+		const prevData = await this.physiotherapistRepo.findById(id)
 
 		if (!prevData) throw new Error("Could not find this professional")
 
@@ -36,9 +36,9 @@ export class PhysiotherapistService {
 
 		const updateData = { ...prevData, password: hash }
 
-		return await this.repo.update(id, updateData)
+		return await this.physiotherapistRepo.update(id, updateData)
 	}
 	async unregister(id: string) {
-		return await this.repo.delete(id)
+		return await this.physiotherapistRepo.delete(id)
 	}
 }

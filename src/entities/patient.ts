@@ -11,7 +11,7 @@ export class Patient {
 	}
 
 	static create(patientInfo: Patient): Patient {
-		const patient = new Patient(patientInfo)
+		const patient = new Patient({ ...patientInfo, name: patientInfo.name.toLowerCase() })
 		return patient
 	}
 }

@@ -12,7 +12,7 @@ model Patient {
   name         String
   cpf          Int           @unique
   gender       String
-  bithday      DateTime
+  birthday     DateTime
   surgery_date DateTime
   // relation
   measurements PatientData[]

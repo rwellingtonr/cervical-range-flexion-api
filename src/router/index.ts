@@ -1,9 +1,11 @@
 import { Application } from "express"
-import { physiotherapistRoutes } from "../modules/physiotherapist/physiotherapistRoutes"
 import { signInRoutes } from "../modules/login/signInRoutes"
+import { physiotherapistRoutes } from "../modules/physiotherapist/physiotherapistRoutes"
+import { patientRoutes } from "../modules/patient/patientRoutes"
 
 const activeRoutes = (app: Application) => {
-	physiotherapistRoutes(app)
 	signInRoutes(app)
+	physiotherapistRoutes(app)
+	patientRoutes(app)
 }
 export { activeRoutes }
