@@ -4,13 +4,4 @@ export class PatientData {
 	score: number
 	patient_id: string
 	physio_coffito: string
-
-	private constructor(props: PatientData) {
-		Object.assign(this, props)
-	}
-
-	static create(patientDataInfo: PatientData): PatientData {
-		const patientData = new PatientData(patientDataInfo)
-		return patientData
-	}
 }
