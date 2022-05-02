@@ -1,3 +1,5 @@
+import { PatientData } from "../entities/patientData"
+
 export interface ICRUDRepo<T> {
 	create(data: T): Promise<T>
 	findById(id: string): Promise<T>
@@ -6,4 +8,7 @@ export interface ICRUDRepo<T> {
 	update(id: string, data: T): Promise<T>
 }
 
-export interface IPatientDataRepo {}
+export interface IPatientDataRepo {
+	history(patientId: string, firstDate: Date, lastDate: Date): Promise<PatientData[]>
+	addMeasurement(id: string, score: number, coffito: string): Promise<PatientData>
+}
