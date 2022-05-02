@@ -1,8 +1,8 @@
 import { Application } from "express"
-import { getHistory } from "./patientHistoryController"
+import { PatientHistoryController } from "./patientHistoryController"
 
 const patientHistoryRoutes = (app: Application) => {
-	app.route("/history/:patientId").get(getHistory)
+	app.route("/history/:patientId").get(new PatientHistoryController().getHistory)
 }
 
 export { patientHistoryRoutes }

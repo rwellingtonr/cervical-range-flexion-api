@@ -1,19 +1,30 @@
 import { Request, Response } from "express"
+import { PatientDataRepo } from "../../repositories/patient/patientDataRepo"
 import { logErr } from "../../utils/loggers"
-import { getPatientHistory } from "./patientHistoryServices"
+import { PatientHistoryService } from "./patientHistoryServices"
 
-export const getHistory = async (req: Request, res: Response) => {
-	try {
-		const { patientId } = req.params
+export class PatientHistoryController {
+	private repository: PatientDataRepo
+	private service: PatientHistoryService
 
-		const firstDate = req.query["firstDate"] as string
-		const laseDate = req.query["laseDate"] as string
+	constructor() {
+		this.repository = new PatientDataRepo()
+		this.service = new PatientHistoryService(this.repository)
+	}
 
-		await getPatientHistory(patientId, firstDate, laseDate)
+	async getHistory(req: Request, res: Response) {
+		try {
+			const { patientId } = req.params
 
-		return res.status(200).json()
-	} catch (error) {
-		logErr(error.message)
-		return res.status(404).json({ error: error.message })
+			const firstDate = req.query["firstDate"] as string
+			const lastDate = req.query["lastDate"] as string
+
+			const histories = await this.service.getPatientHistory(patientId, firstDate, lastDate)
+
+			return res.status(200).json(histories)
+		} catch (error) {
+			logErr(error.message)
+			return res.status(404).json({ error: error.message })
+		}
 	}
 }
