@@ -1,22 +1,36 @@
 import { Physiotherapist } from "../../entities/physiotherapist"
 import { PhysiotherapistRepo } from "../../repositories/physiotherapistRepo/physiotherapistRepo"
-import { decrypt, hashPassword } from "../../utils/bcrypt"
+import { comparePassword, hashPassword } from "../../utils/bcrypt"
+import { logInfo } from "../../utils/loggers"
 
 export class PhysiotherapistService {
-	constructor(private physiotherapistRepo: PhysiotherapistRepo) {}
+	constructor() {}
 
 	async register(userInfo: Physiotherapist) {
-		const alreadyExists = await this.physiotherapistRepo.findOne(userInfo.coffito)
+		logInfo(`Creating user: ${userInfo.name}`)
+		const physiotherapistRepo = new PhysiotherapistRepo()
+
+		const alreadyExists = await physiotherapistRepo.findOne(userInfo.coffito)
 
 		if (alreadyExists) throw new Error("This physiotherapist already exists")
 
 		const user = await Physiotherapist.create(userInfo)
 
-		return await this.physiotherapistRepo.create(user)
+		const { name, coffito } = await physiotherapistRepo.create(user)
+
+		return { name, coffito }
+	}
+	async findAllPhysiotherapists() {
+		logInfo("looking for all profissional")
+		const physiotherapistRepo = new PhysiotherapistRepo()
+		const physiotherapists = await physiotherapistRepo.findAll()
+
+		return physiotherapists
 	}
 
 	async findProfessional(id: string) {
-		const physiotherapist = await this.physiotherapistRepo.findOne(id)
+		const physiotherapistRepo = new PhysiotherapistRepo()
+		const physiotherapist = await physiotherapistRepo.findOne(id)
 
 		if (!physiotherapist) throw new Error("Could not find this professional")
 
@@ -24,11 +38,12 @@ export class PhysiotherapistService {
 	}
 
 	async updatePassword(id: string, newPassword: string) {
-		const prevData = await this.physiotherapistRepo.findById(id)
+		const physiotherapistRepo = new PhysiotherapistRepo()
+		const prevData = await physiotherapistRepo.findById(id)
 
 		if (!prevData) throw new Error("Could not find this professional")
 
-		const isTheSamePassword = await decrypt(newPassword, prevData.password)
+		const isTheSamePassword = await comparePassword(newPassword, prevData.password)
 
 		if (isTheSamePassword) throw new Error("Password must be different")
 
@@ -36,9 +51,10 @@ export class PhysiotherapistService {
 
 		const updateData = { ...prevData, password: hash }
 
-		return await this.physiotherapistRepo.update(id, updateData)
+		return await physiotherapistRepo.update(id, updateData)
 	}
 	async unregister(id: string) {
-		return await this.physiotherapistRepo.delete(id)
+		const physiotherapistRepo = new PhysiotherapistRepo()
+		return await physiotherapistRepo.delete(id)
 	}
 }

@@ -7,8 +7,8 @@ const hashPassword = async (psw: string): Promise<string> => {
 	return hash
 }
 
-const decrypt = async (password: string, hash: string): Promise<boolean> => {
+const comparePassword = async (password: string, hash: string): Promise<boolean> => {
 	return await bcrypt.compare(password, hash)
 }
 
-export { hashPassword, decrypt }
+export { hashPassword, comparePassword }

@@ -1,23 +1,17 @@
 import { Request, Response } from "express"
 import { PhysiotherapistService } from "./physiotherapistService"
-import { logErr } from "../../utils/loggers"
+import { logErr, logInfo } from "../../utils/loggers"
 import { Physiotherapist } from "../../entities/physiotherapist"
-import { PhysiotherapistRepo } from "../../repositories/physiotherapistRepo/physiotherapistRepo"
 
 export class PhysiotherapistController {
-	private service: PhysiotherapistService
-	private repository: PhysiotherapistRepo
-
-	constructor() {
-		this.repository = new PhysiotherapistRepo()
-		this.service = new PhysiotherapistService(this.repository)
-	}
+	constructor() {}
 
 	async createProfessional(req: Request, res: Response) {
 		try {
 			const professionalInfo: Physiotherapist = req.body
 
-			const physiotherapist = await this.service.register(professionalInfo)
+			const service = new PhysiotherapistService()
+			const physiotherapist = await service.register(professionalInfo)
 
 			return res.status(201).json(physiotherapist)
 		} catch (error) {
@@ -25,11 +19,21 @@ export class PhysiotherapistController {
 			return res.status(404).json({ error: error.message })
 		}
 	}
+	async findAll(_req: Request, res: Response) {
+		try {
+			const service = new PhysiotherapistService()
+			const physiotherapists = await service.findAllPhysiotherapists()
+			return res.status(200).send(physiotherapists)
+		} catch (err) {
+			logErr(err.message)
+			return res.status(400).json({ error: err.message })
+		}
+	}
 	async findOne(req: Request, res: Response) {
 		try {
 			const { professionalId } = req.params
-
-			const found = await this.service.findProfessional(professionalId)
+			const service = new PhysiotherapistService()
+			const found = await service.findProfessional(professionalId)
 
 			return res.status(200).json(found)
 		} catch (error) {
@@ -42,8 +46,8 @@ export class PhysiotherapistController {
 		try {
 			const { professionalId } = req.params
 			const { newPassword } = req.body
-
-			const updated = await this.service.updatePassword(professionalId, newPassword)
+			const service = new PhysiotherapistService()
+			const updated = await service.updatePassword(professionalId, newPassword)
 
 			return res.status(200).json(updated)
 		} catch (error) {
@@ -55,8 +59,8 @@ export class PhysiotherapistController {
 	async deleteProfessional(req: Request, res: Response) {
 		try {
 			const { professionalId } = req.params
-
-			await this.service.unregister(professionalId)
+			const service = new PhysiotherapistService()
+			await service.unregister(professionalId)
 
 			return res.status(200).json({ message: `ID ${professionalId} has been deleted` })
 		} catch (error) {

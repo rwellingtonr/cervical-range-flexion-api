@@ -16,7 +16,7 @@ export class PatientServices {
 	}
 
 	async searchAll() {
-		return await this.patientRepo.find()
+		return await this.patientRepo.findAll()
 	}
 
 	async findOne(id: string) {
