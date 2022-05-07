@@ -3,8 +3,8 @@ import { PhysiotherapistController } from "./physiotherapistController"
 
 const controller = new PhysiotherapistController()
 
-const physiotherapistRoutes = (app: Application) => {
-	app.route("/physiotherapist").post(controller.createProfessional).get(controller.findAll)
+export const physiotherapistRoutes = (app: Application) => {
+	app.get("/physiotherapist", controller.findAll)
 
 	app.route("/physiotherapist/:professionalId")
 		.get(controller.findOne)
@@ -12,4 +12,6 @@ const physiotherapistRoutes = (app: Application) => {
 		.delete(controller.deleteProfessional)
 }
 
-export { physiotherapistRoutes }
+export const physiotherapistNormalRoutes = (app: Application) => {
+	app.post("/physiotherapist", controller.createProfessional)
+}

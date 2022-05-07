@@ -1,14 +1,23 @@
-import { Application } from "express"
+import express, { Application } from "express"
+import { resolve } from "path"
 import { signInRoutes } from "../modules/login/signInRoutes"
-import { physiotherapistRoutes } from "../modules/physiotherapist/physiotherapistRoutes"
 import { patientRoutes } from "../modules/patient/patientRoutes"
 import { patientHistoryRoutes } from "../modules/patientHistory/patientHistoryRoutes"
 import { logInfo } from "../utils/loggers"
+import { ensureAuthenticated } from "../middleware/auth"
+import * as physio from "../modules/physiotherapist/physiotherapistRoutes"
 
-export const activeRoutes = (app: Application) => {
-	logInfo("Activating routes")
-	signInRoutes(app)
-	physiotherapistRoutes(app)
+export const activeSafeRoutes = (app: Application) => {
+	logInfo("Starting safety routes...")
+	app.use("/", ensureAuthenticated)
 	patientRoutes(app)
 	patientHistoryRoutes(app)
+	physio.physiotherapistRoutes(app)
+}
+
+export const activeNormalRoutes = (app: Application) => {
+	logInfo("Starting normal routes...")
+	app.use("/public", express.static(resolve("./public")))
+	signInRoutes(app)
+	physio.physiotherapistNormalRoutes(app)
 }

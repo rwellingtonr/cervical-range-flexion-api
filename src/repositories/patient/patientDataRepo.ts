@@ -6,7 +6,7 @@ export class PatientDataRepo implements IPatientDataRepo {
 		const patientHistory = await prisma.patientData.findMany({
 			where: {
 				patient_id: patientId,
-				measurement_date: { gt: firstDate, lt: lastDate },
+				measurement_date: { gte: firstDate, lte: lastDate },
 			},
 		})
 

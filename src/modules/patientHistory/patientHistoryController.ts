@@ -19,4 +19,18 @@ export class PatientHistoryController {
 			return res.status(404).json({ error: error.message })
 		}
 	}
+
+	async addMeasurement(req: Request, res: Response) {
+		try {
+			const { patientId, score, coffito } = req.body
+
+			const service = new PatientHistoryService()
+			await service.appendPatientMeasurements(patientId, score, coffito)
+
+			return res.sendStatus(201)
+		} catch (error) {
+			logErr(error.message)
+			return res.status(404).json({ error: error.message })
+		}
+	}
 }

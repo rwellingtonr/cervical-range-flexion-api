@@ -5,7 +5,7 @@ interface IPayload {
 	sub: string
 }
 
-export default function ensureAuthenticated(req: Request, resp: Response, next: NextFunction) {
+export function ensureAuthenticated(req: Request, resp: Response, next: NextFunction) {
 	try {
 		const authToken = req.headers.authorization
 		if (!authToken) {
