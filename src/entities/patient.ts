@@ -1,6 +1,6 @@
 export class Patient {
 	id?: string
-	cpf: number
+	cpf: string
 	name: string
 	gender: string
 	surgery_date: Date

@@ -10,7 +10,7 @@ datasource db {
 model Patient {
   id           String        @id @default(uuid())
   name         String        @unique
-  cpf          Int           @unique
+  cpf          String        @unique
   gender       String
   birthday     DateTime
   surgery_date DateTime

@@ -1,9 +1,10 @@
 import { Application } from "express"
 import { PhysiotherapistController } from "./physiotherapistController"
 
+const controller = new PhysiotherapistController()
+
 const physiotherapistRoutes = (app: Application) => {
-	const controller = new PhysiotherapistController()
-	app.route("/physiotherapist/info").post(controller.createProfessional).get(controller.findAll)
+	app.route("/physiotherapist").post(controller.createProfessional).get(controller.findAll)
 
 	app.route("/physiotherapist/:professionalId")
 		.get(controller.findOne)

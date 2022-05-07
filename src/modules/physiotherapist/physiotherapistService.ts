@@ -30,7 +30,7 @@ export class PhysiotherapistService {
 
 	async findProfessional(id: string) {
 		const physiotherapistRepo = new PhysiotherapistRepo()
-		const physiotherapist = await physiotherapistRepo.findOne(id)
+		const physiotherapist = await physiotherapistRepo.findById(id)
 
 		if (!physiotherapist) throw new Error("Could not find this professional")
 

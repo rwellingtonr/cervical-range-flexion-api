@@ -1,12 +1,12 @@
 import { PhysiotherapistRepo } from "../../repositories/physiotherapistRepo/physiotherapistRepo"
-import { decrypt } from "../../utils/bcrypt"
+import { comparePassword } from "../../utils/bcrypt"
 import { sign } from "jsonwebtoken"
 
 const signInService = async (coffito: string, password: string) => {
 	const repo = new PhysiotherapistRepo()
 	const professionalInfo = await repo.findOne(coffito)
 
-	const isValid = await decrypt(password, professionalInfo.password)
+	const isValid = await comparePassword(password, professionalInfo.password)
 
 	if (!isValid) throw new Error("Invalid password")
 
