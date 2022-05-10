@@ -1,0 +1,49 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Patient {
+  id           String        @id @default(uuid())
+  name         String        @unique
+  cpf          String        @unique
+  gender       String
+  birthday     DateTime
+  surgery_date DateTime
+  // relation
+  measurements PatientData[]
+
+
+  @@map("patients")
+}
+
+model PatientData {
+  id               String   @id @default(uuid())
+  measurement_date DateTime @default(now())
+  score            Int
+
+  //Pacient relation
+  patient    Patient @relation(fields: [patient_id], references: [id])
+  patient_id String
+
+  //Physiotherapist relation
+  physiotherapist Physiotherapist @relation(fields: [physio_coffito], references: [coffito])
+  physio_coffito  String
+
+  @@map("patientData")
+}
+
+model Physiotherapist {
+  id           String        @id @default(uuid())
+  name         String
+  password     String
+  coffito      String        @unique
+  // relation
+  measurements PatientData[]
+
+  @@map("physiotherapists")
+}
