@@ -1,10 +1,10 @@
 import { Patient } from "../../entities/patient"
 import { PatientRepo } from "../../repositories/patient/patientRepo"
-import { logInfo } from "../../utils/loggers"
+import log from "../../utils/loggers"
 
 export class PatientServices {
 	async create(patient: Patient) {
-		logInfo("Creating patient")
+		log.info("Creating patient")
 		const patientRepo = new PatientRepo()
 		const isDuplicated = await patientRepo.exists(patient.name.toLowerCase())
 
@@ -17,17 +17,20 @@ export class PatientServices {
 	}
 
 	async searchAll() {
+		log.info("Searching all")
 		const patientRepo = new PatientRepo()
 		return await patientRepo.findAll()
 	}
 
 	async findOne(id: string) {
+		log.info(`Looking for ir ${id}`)
 		const patientRepo = new PatientRepo()
 		const patient = await patientRepo.findById(id)
 		return patient
 	}
 
 	async unregister(id: string) {
+		log.info(`Deleting id ${id}`)
 		const patientRepo = new PatientRepo()
 		return await patientRepo.delete(id)
 	}

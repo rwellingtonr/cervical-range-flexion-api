@@ -1,8 +1,10 @@
 import { PhysiotherapistRepo } from "../../repositories/physiotherapistRepo/physiotherapistRepo"
 import { comparePassword } from "../../utils/bcrypt"
 import { sign } from "jsonwebtoken"
+import log from "../../utils/loggers"
 
 const signInService = async (coffito: string, password: string) => {
+	log.info("sign in...")
 	const repo = new PhysiotherapistRepo()
 	const professionalInfo = await repo.findOne(coffito)
 

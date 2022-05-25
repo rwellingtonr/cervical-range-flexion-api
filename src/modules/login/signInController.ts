@@ -1,6 +1,6 @@
 /* What this Controller does... */
 import { Request, Response } from "express"
-import { logErr } from "../../utils/loggers"
+import log from "../../utils/loggers"
 import { signInService } from "./signInService"
 
 export class SingInController {
@@ -12,7 +12,7 @@ export class SingInController {
 
 			return res.status(200).json(token)
 		} catch (error) {
-			logErr(error.message)
+			log.error(error.message)
 			return res.status(400).json({ message: error.message })
 		}
 	}

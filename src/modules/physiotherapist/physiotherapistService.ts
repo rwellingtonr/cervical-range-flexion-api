@@ -1,13 +1,13 @@
 import { Physiotherapist } from "../../entities/physiotherapist"
 import { PhysiotherapistRepo } from "../../repositories/physiotherapistRepo/physiotherapistRepo"
 import { comparePassword, hashPassword } from "../../utils/bcrypt"
-import { logInfo } from "../../utils/loggers"
+import log from "../../utils/loggers"
 
 export class PhysiotherapistService {
 	constructor() {}
 
 	async register(userInfo: Physiotherapist) {
-		logInfo(`Creating user: ${userInfo.name}`)
+		log.info(`Creating user: ${userInfo.name}`)
 		const physiotherapistRepo = new PhysiotherapistRepo()
 
 		const alreadyExists = await physiotherapistRepo.findOne(userInfo.coffito)
@@ -21,7 +21,7 @@ export class PhysiotherapistService {
 		return { name, coffito }
 	}
 	async findAllPhysiotherapists() {
-		logInfo("looking for all profissional")
+		log.info("looking for all profissional")
 		const physiotherapistRepo = new PhysiotherapistRepo()
 		const physiotherapists = await physiotherapistRepo.findAll()
 

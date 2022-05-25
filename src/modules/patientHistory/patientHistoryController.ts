@@ -1,5 +1,5 @@
 import { Request, Response } from "express"
-import { logErr } from "../../utils/loggers"
+import log from "../../utils/loggers"
 import { PatientHistoryService } from "./patientHistoryServices"
 
 export class PatientHistoryController {
@@ -15,7 +15,7 @@ export class PatientHistoryController {
 
 			return res.status(200).json(histories)
 		} catch (error) {
-			logErr(error.message)
+			log.error(error.message)
 			return res.status(404).json({ error: error.message })
 		}
 	}
@@ -29,7 +29,7 @@ export class PatientHistoryController {
 
 			return res.sendStatus(201)
 		} catch (error) {
-			logErr(error.message)
+			log.error(error.message)
 			return res.status(404).json({ error: error.message })
 		}
 	}

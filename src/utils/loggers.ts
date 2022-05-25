@@ -12,6 +12,6 @@ log4js.configure({
 	},
 	categories: { default: { appenders: ["out"], level: "all" } },
 })
-const logger = log4js.getLogger("Messenger")
+const logger = log4js.getLogger("Cervical API")
 
 export default logger

@@ -1,6 +1,6 @@
 import { serverHttp } from "./app"
-import { logInfo } from "./utils/loggers"
+import log from "./utils/loggers"
 
 const { PORT } = process.env
 
-serverHttp.listen(PORT, () => logInfo(`Server running on port ${PORT}`))
+serverHttp.listen(PORT, () => log.info(`Server running on port ${PORT}`))

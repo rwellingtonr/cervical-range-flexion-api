@@ -1,6 +1,6 @@
 import { Request, Response } from "express"
 import { PhysiotherapistService } from "./physiotherapistService"
-import { logErr, logInfo } from "../../utils/loggers"
+import log from "../../utils/loggers"
 import { Physiotherapist } from "../../entities/physiotherapist"
 
 export class PhysiotherapistController {
@@ -15,7 +15,7 @@ export class PhysiotherapistController {
 
 			return res.status(201).json(physiotherapist)
 		} catch (error) {
-			logErr(error.message)
+			log.error(error.message)
 			return res.status(404).json({ error: error.message })
 		}
 	}
@@ -25,7 +25,7 @@ export class PhysiotherapistController {
 			const physiotherapists = await service.findAllPhysiotherapists()
 			return res.status(200).send(physiotherapists)
 		} catch (err) {
-			logErr(err.message)
+			log.error(err.message)
 			return res.status(400).json({ error: err.message })
 		}
 	}
@@ -37,7 +37,7 @@ export class PhysiotherapistController {
 
 			return res.status(200).json(found)
 		} catch (error) {
-			logErr(error.message)
+			log.error(error.message)
 			return res.status(404).json({ error: error.message })
 		}
 	}
@@ -51,7 +51,7 @@ export class PhysiotherapistController {
 
 			return res.status(200).json(updated)
 		} catch (error) {
-			logErr(error.message)
+			log.error(error.message)
 			return res.status(404).json({ error: error.message })
 		}
 	}
@@ -64,7 +64,7 @@ export class PhysiotherapistController {
 
 			return res.status(200).json({ message: `ID ${professionalId} has been deleted` })
 		} catch (error) {
-			logErr(error.message)
+			log.error(error.message)
 			return res.status(404).json({ error: error.message })
 		}
 	}

@@ -1,6 +1,6 @@
 import { Request, Response } from "express"
 import { Patient } from "../../entities/patient"
-import { logErr } from "../../utils/loggers"
+import log from "../../utils/loggers"
 import { PatientServices } from "./patientServices"
 
 export class PatientController {
@@ -12,7 +12,7 @@ export class PatientController {
 
 			return res.status(201).json(user)
 		} catch (error) {
-			logErr(error.message)
+			log.error(error.message)
 			return res.status(400).json({ error: error.message })
 		}
 	}
@@ -24,7 +24,7 @@ export class PatientController {
 
 			return res.status(200).json(patients)
 		} catch (error) {
-			logErr(error.message)
+			log.error(error.message)
 			return res.status(400).json({ error: error.message })
 		}
 	}
@@ -37,7 +37,7 @@ export class PatientController {
 
 			return res.status(200).json(patient)
 		} catch (error) {
-			logErr(error.message)
+			log.error(error.message)
 			return res.status(404).json({ error: error.message })
 		}
 	}
@@ -49,7 +49,7 @@ export class PatientController {
 
 			return res.status(200).send()
 		} catch (error) {
-			logErr(error.message)
+			log.error(error.message)
 			return res.status(404).json({ error: error.message })
 		}
 	}
