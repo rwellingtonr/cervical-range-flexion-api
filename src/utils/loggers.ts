@@ -1,7 +1,17 @@
-const time = () => new Date().toLocaleTimeString()
+import log4js from "log4js"
 
-const logInfo = (...info: any[]) => console.log(`[Info] at ${time()}: `, ...info)
+log4js.configure({
+	appenders: {
+		out: {
+			type: "stdout",
+			layout: {
+				type: "pattern",
+				pattern: "%[[%d{dd/MM/yy hh:mm:ss}] [%p] %c:%] %m",
+			},
+		},
+	},
+	categories: { default: { appenders: ["out"], level: "all" } },
+})
+const logger = log4js.getLogger("Messenger")
 
-const logErr = (...err: any[]) => console.error(`[Error] at ${time()}: `, ...err)
-
-export { logInfo, logErr }
+export default logger
