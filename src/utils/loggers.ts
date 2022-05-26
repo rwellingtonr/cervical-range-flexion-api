@@ -11,6 +11,7 @@ log4js.configure({
         },
     },
     categories: { default: { appenders: ["out"], level: "all" } },
+    pm2: true,
 })
 const logger = log4js.getLogger("Cervical API")
 
