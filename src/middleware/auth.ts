@@ -5,11 +5,11 @@ interface IPayload {
 	sub: string
 }
 
-export function ensureAuthenticated(req: Request, resp: Response, next: NextFunction) {
+const ensureAuthenticated = (req: Request, res: Response, next: NextFunction) => {
 	try {
 		const authToken = req.headers.authorization
 		if (!authToken) {
-			return resp.status(401).json({
+			return res.status(401).json({
 				message: "token.invalid",
 			})
 		}
@@ -21,6 +21,7 @@ export function ensureAuthenticated(req: Request, resp: Response, next: NextFunc
 
 		return next()
 	} catch (error) {
-		resp.status(401).json({ message: "token.expired" })
+		return res.status(401).json({ message: "token.expired" })
 	}
 }
+export { ensureAuthenticated }
