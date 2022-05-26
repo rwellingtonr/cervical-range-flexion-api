@@ -4,8 +4,6 @@ import { comparePassword, hashPassword } from "../../utils/bcrypt"
 import log from "../../utils/loggers"
 
 export class PhysiotherapistService {
-    constructor() {}
-
     async register(userInfo: Physiotherapist) {
         log.info(`Creating user: ${userInfo.name}`)
         const physiotherapistRepo = new PhysiotherapistRepo()

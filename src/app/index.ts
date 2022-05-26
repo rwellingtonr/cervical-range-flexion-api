@@ -17,9 +17,9 @@ initializeRoutes(app)
 const serverHttp = createServer(app)
 
 const io = new Server(serverHttp, {
-	cors: {
-		origin: "*",
-	},
+    cors: {
+        origin: "*",
+    },
 })
 
 export { serverHttp, io }

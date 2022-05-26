@@ -4,8 +4,6 @@ import log from "../../utils/loggers"
 import { Physiotherapist } from "../../entities/physiotherapist"
 
 export class PhysiotherapistController {
-    constructor() {}
-
     async createProfessional(req: Request, res: Response) {
         try {
             const professionalInfo: Physiotherapist = req.body
