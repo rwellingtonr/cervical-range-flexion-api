@@ -10,11 +10,11 @@ interface IPatientData {
 
 const patientData: IPatientData = { name: "", score: [] }
 
-serialPort.on("data", data => log.debug("Serial data: ", data))
+serialPort.on("data", (data) => log.debug("Serial data: ", data))
 serialPort.on("readable", () => log.debug("Readable Port: ", serialPort.read()))
 // serialPort.write("Port Write")
 
-parser.on("data", data => log.debug("Parser data: ", data))
+parser.on("data", (data) => log.debug("Parser data: ", data))
 parser.on("readable", () => log.debug("Parser readable: ", parser.read()))
 
 //
