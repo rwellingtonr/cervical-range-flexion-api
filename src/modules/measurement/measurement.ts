@@ -39,10 +39,10 @@ io.on("connection", (socket: Socket) => {
         const { coffito, patientId, score } = patientData
         log.debug("end")
 
-        const avg = average(score)
+        const max = maxValue(score)
 
         const history = new PatientHistoryService()
-        await history.appendPatientMeasurements(patientId, avg, coffito)
+        await history.appendPatientMeasurements(patientId, max, coffito)
     })
     socket.on("abort", () => {
         //[]  para o envio de dados do uC
@@ -52,4 +52,4 @@ io.on("connection", (socket: Socket) => {
     socket.on("close", (reason) => log.debug(reason))
 })
 
-const average = (arr: number[]) => arr.reduce((a, b) => a + b, 0) / arr.length
+const maxValue = (arr: number[]): number => Math.max(...arr)
