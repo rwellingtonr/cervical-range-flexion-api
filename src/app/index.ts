@@ -6,6 +6,8 @@ import { errorHandling } from "../middleware/errorHandling"
 import { initializeRoutes } from "../router"
 import { Server } from "socket.io"
 
+import "../config/serialPort"
+
 const app = express()
 
 app.use(express.json())
