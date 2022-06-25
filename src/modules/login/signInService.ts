@@ -12,18 +12,17 @@ const signInService = async (coffito: string, password: string) => {
 
     if (!isValid) throw new Error("Invalid password")
 
-    const token = sign(
-        {
-            user: {
-                coffito,
-                name: professionalInfo.name,
-                id: professionalInfo.id,
-            },
-        },
-        process.env.JWT_SECRET,
-        { subject: professionalInfo.id, expiresIn: "10h" }
-    )
+    const physiotherapist = {
+        coffito,
+        name: professionalInfo.name,
+        id: professionalInfo.id,
+    }
 
-    return token
+    const token = sign({ physiotherapist }, process.env.JWT_SECRET, {
+        subject: professionalInfo.id,
+        expiresIn: "10h",
+    })
+
+    return { token, physiotherapist }
 }
 export { signInService }

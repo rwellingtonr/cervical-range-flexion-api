@@ -8,9 +8,9 @@ export class SingInController {
         try {
             const { coffito, password } = req.body
 
-            const token = await signInService(coffito, password)
+            const credentials = await signInService(coffito, password)
 
-            return res.status(200).json(token)
+            return res.status(200).json(credentials)
         } catch (error) {
             log.error(error.message)
             return res.status(400).json({ message: error.message })
