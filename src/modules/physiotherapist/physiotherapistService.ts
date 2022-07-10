@@ -14,9 +14,7 @@ export class PhysiotherapistService {
 
         const user = await Physiotherapist.create(userInfo)
 
-        const { name, coffito } = await physiotherapistRepo.create(user)
-
-        return { name, coffito }
+        await physiotherapistRepo.create(user)
     }
     async findAllPhysiotherapists() {
         log.info("looking for all profissional")

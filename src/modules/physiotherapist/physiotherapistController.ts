@@ -9,9 +9,9 @@ export class PhysiotherapistController {
             const professionalInfo: Physiotherapist = req.body
 
             const service = new PhysiotherapistService()
-            const physiotherapist = await service.register(professionalInfo)
+            await service.register(professionalInfo)
 
-            return res.status(201).json(physiotherapist)
+            return res.sendStatus(201)
         } catch (error) {
             log.error(error.message)
             return res.status(404).json({ error: error.message })
