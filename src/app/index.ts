@@ -7,6 +7,7 @@ import { initializeRoutes } from "../router"
 import { Server } from "socket.io"
 
 import "../config/serialPort"
+import "../middleware/gracefulShutDown"
 
 const app = express()
 

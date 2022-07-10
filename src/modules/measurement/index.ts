@@ -17,6 +17,7 @@ const patientData: IPatientData = {
 
 //
 io.on("connection", (socket: Socket) => {
+    log.debug(`Socket id ${socket.id}`)
     socket.on("start", ({ patientId, coffito }: IPatientData) => {
         // [] enviar sinal ao uC para iniciar a coleta
         patientData["patientId"] = patientId
@@ -31,6 +32,7 @@ io.on("connection", (socket: Socket) => {
         dos sensores
         */
         log.debug("Tare")
+        setTimeout(() => socket.emit("tare"), 1000)
     })
 
     socket.on("stop", async () => {
@@ -49,7 +51,7 @@ io.on("connection", (socket: Socket) => {
         patientData["score"] = [0]
     })
 
-    socket.on("close", (reason) => log.debug(reason))
+    socket.on("disconnect", (reason) => log.debug(reason))
 })
 
 const maxValue = (arr: number[]): number => Math.max(...arr)

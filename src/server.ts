@@ -1,5 +1,6 @@
 import { serverHttp } from "./app"
 import log from "./utils/loggers"
+import "./modules/measurement"
 
 const { PORT } = process.env
 
