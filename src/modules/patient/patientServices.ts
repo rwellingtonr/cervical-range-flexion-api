@@ -24,6 +24,7 @@ export class PatientServices {
 
     async findOne(id: string) {
         log.info(`Looking for ir ${id}`)
+        if (!id) return
         const patientRepo = new PatientRepo()
         const patient = await patientRepo.findById(id)
         return patient
@@ -31,6 +32,7 @@ export class PatientServices {
 
     async unregister(id: string) {
         log.info(`Deleting id ${id}`)
+        if (!id) return
         const patientRepo = new PatientRepo()
         return await patientRepo.delete(id)
     }

@@ -7,8 +7,8 @@ export class PatientController {
     async register(req: Request, res: Response) {
         try {
             const patient: Patient = req.body
-            const patientServices = new PatientServices()
-            const user = await patientServices.create(patient)
+            const patientService = new PatientServices()
+            const user = await patientService.create(patient)
 
             return res.status(201).json(user)
         } catch (error) {
@@ -47,7 +47,7 @@ export class PatientController {
             const patientServices = new PatientServices()
             await patientServices.unregister(patientId)
 
-            return res.status(200).send()
+            return res.sendStatus(200)
         } catch (error) {
             log.error(error.message)
             return res.status(404).json({ error: error.message })

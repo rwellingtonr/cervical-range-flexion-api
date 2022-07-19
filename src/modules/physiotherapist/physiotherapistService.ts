@@ -25,6 +25,8 @@ export class PhysiotherapistService {
     }
 
     async findProfessional(id: string) {
+        log.info(`Searching for physiotherapist ${id} `)
+        if (!id) return
         const physiotherapistRepo = new PhysiotherapistRepo()
         const physiotherapist = await physiotherapistRepo.findById(id)
 

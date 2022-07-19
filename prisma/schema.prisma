@@ -27,12 +27,12 @@ model PatientData {
   score            Int
 
   //Pacient relation
-  patient    Patient @relation(fields: [patient_id], references: [id])
-  patient_id String
+  patient    Patient? @relation(fields: [patient_id], references: [id])
+  patient_id String?
 
   //Physiotherapist relation
-  physiotherapist Physiotherapist @relation(fields: [physio_coffito], references: [coffito])
-  physio_coffito  String
+  physiotherapist Physiotherapist? @relation(fields: [physio_coffito], references: [coffito])
+  physio_coffito  String?
 
   @@map("patientData")
 }

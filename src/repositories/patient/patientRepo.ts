@@ -1,6 +1,7 @@
 import { Patient } from "../../entities/patient"
 import { ICRUDRepo } from "../repositoriesInterface"
 import { prisma } from "../../database"
+import { PatientDataRepo } from "./patientDataRepo"
 
 export class PatientRepo implements ICRUDRepo<Patient> {
     async create(patient: Patient): Promise<Patient> {
@@ -27,7 +28,13 @@ export class PatientRepo implements ICRUDRepo<Patient> {
         return patients
     }
     async delete(id: string): Promise<boolean> {
-        const deleted = await prisma.patient.delete({ where: { id } })
+        const measurements = new PatientDataRepo(id)
+
+        await measurements.remove()
+
+        const deleted = await prisma.patient.delete({
+            where: { id },
+        })
         return !!deleted
     }
     async exists(name: string): Promise<boolean> {

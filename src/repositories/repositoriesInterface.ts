@@ -10,6 +10,6 @@ export interface ICRUDRepo<T> {
 }
 
 export interface IPatientDataRepo {
-    history(patientId: string, firstDate: Date, lastDate: Date): Promise<PatientData[]>
-    addMeasurement(id: string, score: number, coffito: string): Promise<PatientData>
+    history(firstDate: Date, lastDate: Date): Promise<PatientData[]>
+    addMeasurement(score: number, coffito: string): Promise<PatientData>
 }
