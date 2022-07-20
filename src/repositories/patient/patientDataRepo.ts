@@ -12,6 +12,9 @@ export class PatientDataRepo implements IPatientDataRepo {
                 patient_id: this.patientId,
                 measurement_date: { gte: firstDate, lte: lastDate },
             },
+            orderBy: {
+                measurement_date: "asc",
+            },
         })
 
         return patientHistory
