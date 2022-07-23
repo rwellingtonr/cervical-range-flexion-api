@@ -1,7 +1,7 @@
-import { PhysiotherapistRepo } from "../../repositories/physiotherapistRepo/physiotherapistRepo"
+import PhysiotherapistRepo from "../../repositories/physiotherapistRepo/physiotherapistRepo"
+import log from "../../utils/loggers"
 import { comparePassword } from "../../utils/bcrypt"
 import { sign } from "jsonwebtoken"
-import log from "../../utils/loggers"
 
 export default class SignService {
     constructor(private physiotherapistRepo: PhysiotherapistRepo) {}

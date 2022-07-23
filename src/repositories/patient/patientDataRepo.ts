@@ -1,7 +1,7 @@
 import { prisma } from "../../database"
 import { IPatientDataRepo } from "../repositoriesInterface"
 import logger from "../../utils/loggers"
-export class PatientDataRepo implements IPatientDataRepo {
+export default class PatientDataRepo implements IPatientDataRepo {
     async history(patientId: string, firstDate: Date, lastDate: Date) {
         const patientHistory = await prisma.patientData.findMany({
             where: {

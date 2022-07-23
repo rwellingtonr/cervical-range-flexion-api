@@ -1,7 +1,8 @@
 import { io } from "../../app"
 import { Socket } from "socket.io"
-import { PatientHistoryService } from "../patientHistory/patientHistoryServices"
+import PatientHistoryService from "../patientHistory/patientHistoryServices"
 import log from "../../utils/loggers"
+import PatientDataRepo from "../../repositories/patient/patientDataRepo"
 
 interface IPatientData {
     patientId: string
@@ -43,7 +44,7 @@ io.on("connection", (socket: Socket) => {
 
         const max = maxValue(score)
 
-        const history = new PatientHistoryService()
+        const history = new PatientHistoryService(new PatientDataRepo())
         await history.appendPatientMeasurements(patientId, max, coffito)
     })
     socket.on("abort", () => {

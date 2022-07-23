@@ -2,7 +2,7 @@ import { ICRUDRepo } from "../repositoriesInterface"
 import { prisma } from "../../database"
 import { Physiotherapist } from "../../entities/physiotherapist"
 
-export class PhysiotherapistRepo implements ICRUDRepo<Physiotherapist> {
+export default class PhysiotherapistRepo implements ICRUDRepo<Physiotherapist> {
     async create(physiotherapist: Physiotherapist): Promise<Physiotherapist> {
         return await prisma.physiotherapist.create({
             data: physiotherapist,
