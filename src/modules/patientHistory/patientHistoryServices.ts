@@ -1,16 +1,41 @@
+import { PatientData } from "../../entities/patientData"
 import PatientDataRepo from "../../repositories/patient/patientDataRepo"
 import log from "../../utils/loggers"
 
 export default class PatientHistoryService {
+    private fistDay: Date
+    private lastDay: Date
+
     constructor(private readonly repository: PatientDataRepo) {}
+
+    private setDate(firstDate: string, lastDate: string) {
+        if (!firstDate) {
+            this.fistDay = new Date("1950-01-01")
+        } else {
+            this.fistDay = new Date(firstDate)
+        }
+
+        if (!lastDate) {
+            this.lastDay = new Date()
+        } else {
+            this.lastDay = new Date(lastDate)
+        }
+    }
+
+    private toLocalDateString(patientData: PatientData[]) {
+        return patientData.map((data) => ({
+            ...data,
+            measurement_date: data.measurement_date.toLocaleDateString("pt-BR"),
+        }))
+    }
+
     async getPatientHistory(patientId: string, firstDate: string, lastDate: string) {
         log.info("Getting patient history")
 
-        const starting = new Date(firstDate)
-        const ending = new Date(lastDate)
+        this.setDate(firstDate, lastDate)
 
-        const histories = await this.repository.history(patientId, starting, ending)
-        return histories
+        const data = await this.repository.history(patientId, this.fistDay, this.lastDay)
+        return this.toLocalDateString(data)
     }
 
     async appendPatientMeasurements(patientId: string, score: number, coffito: string) {
