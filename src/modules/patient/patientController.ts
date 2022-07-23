@@ -1,14 +1,15 @@
 import { Request, Response } from "express"
 import { Patient } from "../../entities/patient"
 import log from "../../utils/loggers"
-import { PatientServices } from "./patientServices"
+import PatientServices from "./patientServices"
 
-export class PatientController {
+export default class PatientController {
+    constructor(private readonly patientServices: PatientServices) {}
     async register(req: Request, res: Response) {
         try {
             const patient: Patient = req.body
-            const patientService = new PatientServices()
-            const user = await patientService.create(patient)
+
+            const user = await this.patientServices.create(patient)
 
             return res.status(201).json(user)
         } catch (error) {
@@ -19,8 +20,7 @@ export class PatientController {
 
     async searchAll(req: Request, res: Response) {
         try {
-            const patientServices = new PatientServices()
-            const patients = await patientServices.searchAll()
+            const patients = await this.patientServices.searchAll()
 
             return res.status(200).json(patients)
         } catch (error) {
@@ -32,8 +32,8 @@ export class PatientController {
     async searchOne(req: Request, res: Response) {
         try {
             const { patientId } = req.params
-            const patientServices = new PatientServices()
-            const patient = await patientServices.findOne(patientId)
+
+            const patient = await this.patientServices.findOne(patientId)
 
             return res.status(200).json(patient)
         } catch (error) {
@@ -44,8 +44,8 @@ export class PatientController {
     async unregister(req: Request, res: Response) {
         try {
             const { patientId } = req.params
-            const patientServices = new PatientServices()
-            await patientServices.unregister(patientId)
+
+            await this.patientServices.unregister(patientId)
 
             return res.sendStatus(200)
         } catch (error) {

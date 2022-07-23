@@ -2,14 +2,10 @@ import { prisma } from "../../database"
 import { IPatientDataRepo } from "../repositoriesInterface"
 import logger from "../../utils/loggers"
 export class PatientDataRepo implements IPatientDataRepo {
-    constructor(private patientId: string) {
-        this.patientId = patientId
-    }
-
-    async history(firstDate: Date, lastDate: Date) {
+    async history(patientId: string, firstDate: Date, lastDate: Date) {
         const patientHistory = await prisma.patientData.findMany({
             where: {
-                patient_id: this.patientId,
+                patient_id: patientId,
                 measurement_date: { gte: firstDate, lte: lastDate },
             },
             orderBy: {
@@ -19,21 +15,21 @@ export class PatientDataRepo implements IPatientDataRepo {
 
         return patientHistory
     }
-    async addMeasurement(score: number, coffito: string) {
+    async addMeasurement(patientId: string, score: number, coffito: string) {
         return await prisma.patientData.create({
             data: {
                 score,
-                patient_id: this.patientId,
+                patient_id: patientId,
                 physio_coffito: coffito,
             },
         })
     }
 
-    async remove() {
+    async remove(patientId: string) {
         try {
             await prisma.patientData.deleteMany({
                 where: {
-                    patient_id: this.patientId,
+                    patient_id: patientId,
                 },
             })
         } catch {

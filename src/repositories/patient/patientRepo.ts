@@ -24,13 +24,13 @@ export class PatientRepo implements ICRUDRepo<Patient> {
         })
     }
     async findAll(): Promise<Patient[]> {
-        const patients = await prisma.patient.findMany()
+        const patients = await prisma.patient.findMany({ orderBy: { name: "asc" } })
         return patients
     }
     async delete(id: string): Promise<boolean> {
-        const measurements = new PatientDataRepo(id)
+        const measurements = new PatientDataRepo()
 
-        await measurements.remove()
+        await measurements.remove(id)
 
         const deleted = await prisma.patient.delete({
             where: { id },

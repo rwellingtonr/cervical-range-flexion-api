@@ -1,15 +1,14 @@
 import { Request, Response } from "express"
-import { PhysiotherapistService } from "./physiotherapistService"
+import PhysiotherapistService from "./physiotherapistService"
 import log from "../../utils/loggers"
 import { Physiotherapist } from "../../entities/physiotherapist"
 
-export class PhysiotherapistController {
+export default class PhysiotherapistController {
+    constructor(private readonly service: PhysiotherapistService) {}
     async createProfessional(req: Request, res: Response) {
         try {
             const professionalInfo: Physiotherapist = req.body
-
-            const service = new PhysiotherapistService()
-            await service.register(professionalInfo)
+            await this.service.register(professionalInfo)
 
             return res.sendStatus(201)
         } catch (error) {
@@ -19,8 +18,7 @@ export class PhysiotherapistController {
     }
     async findAll(_req: Request, res: Response) {
         try {
-            const service = new PhysiotherapistService()
-            const physiotherapists = await service.findAllPhysiotherapists()
+            const physiotherapists = await this.service.findAllPhysiotherapists()
             return res.status(200).send(physiotherapists)
         } catch (err) {
             log.error(err.message)
@@ -30,8 +28,8 @@ export class PhysiotherapistController {
     async findOne(req: Request, res: Response) {
         try {
             const { professionalId } = req.params
-            const service = new PhysiotherapistService()
-            const found = await service.findProfessional(professionalId)
+
+            const found = await this.service.findProfessional(professionalId)
 
             return res.status(200).json(found)
         } catch (error) {
@@ -44,8 +42,8 @@ export class PhysiotherapistController {
         try {
             const { professionalId } = req.params
             const { newPassword } = req.body
-            const service = new PhysiotherapistService()
-            const updated = await service.updatePassword(professionalId, newPassword)
+
+            const updated = await this.service.updatePassword(professionalId, newPassword)
 
             return res.status(200).json(updated)
         } catch (error) {
@@ -57,8 +55,8 @@ export class PhysiotherapistController {
     async deleteProfessional(req: Request, res: Response) {
         try {
             const { professionalId } = req.params
-            const service = new PhysiotherapistService()
-            await service.unregister(professionalId)
+
+            await this.service.unregister(professionalId)
 
             return res.status(200).json({ message: `ID ${professionalId} has been deleted` })
         } catch (error) {

@@ -3,23 +3,23 @@ import { PhysiotherapistRepo } from "../../repositories/physiotherapistRepo/phys
 import { comparePassword, hashPassword } from "../../utils/bcrypt"
 import log from "../../utils/loggers"
 
-export class PhysiotherapistService {
+export default class PhysiotherapistService {
+    constructor(private readonly physiotherapistRepo: PhysiotherapistRepo) {}
     async register(userInfo: Physiotherapist) {
         log.info(`Creating user: ${userInfo.name}`)
-        const physiotherapistRepo = new PhysiotherapistRepo()
 
-        const alreadyExists = await physiotherapistRepo.findOne(userInfo.coffito)
+        const alreadyExists = await this.physiotherapistRepo.findOne(userInfo.coffito)
 
         if (alreadyExists) throw new Error("This physiotherapist already exists")
 
         const user = await Physiotherapist.create(userInfo)
 
-        await physiotherapistRepo.create(user)
+        await this.physiotherapistRepo.create(user)
     }
     async findAllPhysiotherapists() {
         log.info("looking for all profissional")
-        const physiotherapistRepo = new PhysiotherapistRepo()
-        const physiotherapists = await physiotherapistRepo.findAll()
+
+        const physiotherapists = await this.physiotherapistRepo.findAll()
 
         return physiotherapists
     }
@@ -27,8 +27,8 @@ export class PhysiotherapistService {
     async findProfessional(id: string) {
         log.info(`Searching for physiotherapist ${id} `)
         if (!id) return
-        const physiotherapistRepo = new PhysiotherapistRepo()
-        const physiotherapist = await physiotherapistRepo.findById(id)
+
+        const physiotherapist = await this.physiotherapistRepo.findById(id)
 
         if (!physiotherapist) throw new Error("Could not find this professional")
 
@@ -36,8 +36,7 @@ export class PhysiotherapistService {
     }
 
     async updatePassword(id: string, newPassword: string) {
-        const physiotherapistRepo = new PhysiotherapistRepo()
-        const prevData = await physiotherapistRepo.findById(id)
+        const prevData = await this.physiotherapistRepo.findById(id)
 
         if (!prevData) throw new Error("Could not find this professional")
 
@@ -49,10 +48,9 @@ export class PhysiotherapistService {
 
         const updateData = { ...prevData, password: hash }
 
-        return await physiotherapistRepo.update(id, updateData)
+        return await this.physiotherapistRepo.update(id, updateData)
     }
     async unregister(id: string) {
-        const physiotherapistRepo = new PhysiotherapistRepo()
-        return await physiotherapistRepo.delete(id)
+        return await this.physiotherapistRepo.delete(id)
     }
 }

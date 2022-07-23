@@ -1,14 +1,15 @@
 /* What this Controller does... */
 import { Request, Response } from "express"
 import log from "../../utils/loggers"
-import { signInService } from "./signInService"
+import SignService from "./signInService"
 
-export class SingInController {
+export default class SingInController {
+    constructor(private readonly service: SignService) {}
     async handle(req: Request, res: Response) {
         try {
             const { coffito, password } = req.body
 
-            const credentials = await signInService(coffito, password)
+            const credentials = await this.service.signIn(coffito, password)
 
             return res.status(200).json(credentials)
         } catch (error) {
