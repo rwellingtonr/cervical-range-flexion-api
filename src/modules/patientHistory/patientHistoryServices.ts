@@ -25,7 +25,7 @@ export default class PatientHistoryService {
     private toLocalDateString(patientData: PatientData[]) {
         return patientData.map((data) => ({
             ...data,
-            measurement_date: data.measurement_date.toLocaleDateString("pt-BR"),
+            measurement_date: data.measurement_date.toLocaleDateString(),
         }))
     }
 
