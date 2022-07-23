@@ -12,9 +12,9 @@ export default class PatientController {
             const user = await this.patientServices.create(patient)
 
             return res.status(201).json(user)
-        } catch (error) {
-            log.error(error.message)
-            return res.status(400).json({ error: error.message })
+        } catch (err) {
+            log.error(err.message)
+            return res.status(err.httpCode || 400).json({ error: err.message })
         }
     }
 
@@ -23,9 +23,9 @@ export default class PatientController {
             const patients = await this.patientServices.searchAll()
 
             return res.status(200).json(patients)
-        } catch (error) {
-            log.error(error.message)
-            return res.status(400).json({ error: error.message })
+        } catch (err) {
+            log.error(err.message)
+            return res.status(err.httpCode || 400).json({ error: err.message })
         }
     }
 
@@ -38,7 +38,7 @@ export default class PatientController {
             return res.status(200).json(patient)
         } catch (error) {
             log.error(error.message)
-            return res.status(404).json({ error: error.message })
+            return res.status(error.httpCode || 400).json({ error: error.message })
         }
     }
     async unregister(req: Request, res: Response) {
@@ -50,7 +50,7 @@ export default class PatientController {
             return res.sendStatus(200)
         } catch (error) {
             log.error(error.message)
-            return res.status(404).json({ error: error.message })
+            return res.status(error.httpCode || 400).json({ error: error.message })
         }
     }
 }

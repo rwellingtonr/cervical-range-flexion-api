@@ -10,7 +10,7 @@ export default class PhysiotherapistService {
 
         const alreadyExists = await this.physiotherapistRepo.findOne(userInfo.coffito)
 
-        if (alreadyExists) throw new Error("This physiotherapist already exists")
+        if (alreadyExists) throw { httpCode: 409, message: "This physiotherapist already exists" }
 
         const user = await Physiotherapist.create(userInfo)
 
@@ -26,7 +26,7 @@ export default class PhysiotherapistService {
 
     async findProfessional(id: string) {
         log.info(`Searching for physiotherapist ${id} `)
-        if (!id) return
+        if (!id) throw { httpCode: 404, message: "Could't find this one" }
 
         const physiotherapist = await this.physiotherapistRepo.findById(id)
 
@@ -38,7 +38,7 @@ export default class PhysiotherapistService {
     async updatePassword(id: string, newPassword: string) {
         const prevData = await this.physiotherapistRepo.findById(id)
 
-        if (!prevData) throw new Error("Could not find this professional")
+        if (!prevData) throw { httpCode: 404, message: "Could't find this one" }
 
         const isTheSamePassword = await comparePassword(newPassword, prevData.password)
 

@@ -10,7 +10,7 @@ export default class PatientServices {
 
         const isDuplicated = await this.patientRepo.exists(patient.name.toLowerCase())
 
-        if (isDuplicated) throw new Error("This patient already exists")
+        if (isDuplicated) throw { message: "This patient already exists", httpCode: 409 }
 
         const user = Patient.create(patient)
 
@@ -26,7 +26,7 @@ export default class PatientServices {
 
     async findOne(id: string) {
         log.info(`Looking for ir ${id}`)
-        if (!id) return
+        if (!id) throw { httpCode: 404, message: "Patient doesn't exist" }
 
         const patient = await this.patientRepo.findById(id)
         return patient
@@ -34,7 +34,7 @@ export default class PatientServices {
 
     async unregister(id: string) {
         log.info(`Deleting id ${id}`)
-        if (!id) return
+        if (!id) throw { httpCode: 404, message: "Patient doesn't exist" }
 
         return await this.patientRepo.delete(id)
     }

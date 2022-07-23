@@ -13,7 +13,7 @@ export default class PhysiotherapistController {
             return res.sendStatus(201)
         } catch (error) {
             log.error(error.message)
-            return res.status(404).json({ error: error.message })
+            return res.status(error.httpCode || 400).json({ error: error.message })
         }
     }
     async findAll(_req: Request, res: Response) {
@@ -22,7 +22,7 @@ export default class PhysiotherapistController {
             return res.status(200).send(physiotherapists)
         } catch (err) {
             log.error(err.message)
-            return res.status(400).json({ error: err.message })
+            return res.status(err.httpCode || 400).json({ error: err.message })
         }
     }
     async findOne(req: Request, res: Response) {
@@ -34,7 +34,7 @@ export default class PhysiotherapistController {
             return res.status(200).json(found)
         } catch (error) {
             log.error(error.message)
-            return res.status(404).json({ error: error.message })
+            return res.status(error.httpCode || 400).json({ error: error.message })
         }
     }
 
@@ -48,7 +48,7 @@ export default class PhysiotherapistController {
             return res.status(200).json(updated)
         } catch (error) {
             log.error(error.message)
-            return res.status(404).json({ error: error.message })
+            return res.status(error.httpCode || 400).json({ error: error.message })
         }
     }
 
@@ -61,7 +61,7 @@ export default class PhysiotherapistController {
             return res.status(200).json({ message: `ID ${professionalId} has been deleted` })
         } catch (error) {
             log.error(error.message)
-            return res.status(404).json({ error: error.message })
+            return res.status(error.httpCode || 404).json({ error: error.message })
         }
     }
 }
