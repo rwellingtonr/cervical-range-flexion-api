@@ -21,7 +21,7 @@ export default class SignService {
 
         const token = sign({ physiotherapist }, process.env.JWT_SECRET, {
             subject: professionalInfo.id,
-            expiresIn: "1h",
+            expiresIn: "10h",
         })
 
         return { token, physiotherapist }
