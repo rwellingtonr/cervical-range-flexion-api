@@ -1,4 +1,4 @@
-import { PatientDataRepo } from "../../repositories/patient/patientDataRepo"
+import PatientDataRepo from "../../repositories/patient/patientDataRepo"
 import log from "../../utils/loggers"
 
 export default class PatientHistoryService {

@@ -1,5 +1,5 @@
 import { Physiotherapist } from "../../entities/physiotherapist"
-import { PhysiotherapistRepo } from "../../repositories/physiotherapistRepo/physiotherapistRepo"
+import PhysiotherapistRepo from "../../repositories/physiotherapistRepo/physiotherapistRepo"
 import { comparePassword, hashPassword } from "../../utils/bcrypt"
 import log from "../../utils/loggers"
 

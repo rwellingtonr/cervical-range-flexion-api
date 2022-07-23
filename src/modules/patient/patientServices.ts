@@ -1,5 +1,5 @@
 import { Patient } from "../../entities/patient"
-import { PatientRepo } from "../../repositories/patient/patientRepo"
+import PatientRepo from "../../repositories/patient/patientRepo"
 import log from "../../utils/loggers"
 
 export default class PatientServices {
