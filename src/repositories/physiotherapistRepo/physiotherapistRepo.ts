@@ -9,7 +9,7 @@ export class PhysiotherapistRepo implements ICRUDRepo<Physiotherapist> {
         })
     }
     async findAll(): Promise<Physiotherapist[]> {
-        const physiotherapists = await prisma.physiotherapist.findMany()
+        const physiotherapists = await prisma.physiotherapist.findMany({ orderBy: { name: "asc" } })
         return physiotherapists
     }
     async update(id: string, Physiotherapist: Physiotherapist): Promise<Physiotherapist> {
