@@ -1,8 +1,8 @@
 import { io } from "../../app"
 import { Socket } from "socket.io"
 import PatientHistoryService from "../patientHistory/patientHistoryServices"
-import log from "../../utils/loggers"
 import PatientDataRepo from "../../repositories/patient/patientDataRepo"
+import log from "../../utils/loggers"
 
 interface IPatientData {
     patientId: string
@@ -16,6 +16,11 @@ const patientData: IPatientData = {
     score: [0],
 }
 
+function random() {
+    const num = Math.random().toString()
+    return +num.slice(2, 4)
+}
+
 //
 io.on("connection", (socket: Socket) => {
     log.debug(`Socket id ${socket.id}`)
@@ -25,6 +30,16 @@ io.on("connection", (socket: Socket) => {
         patientData["coffito"] = coffito
 
         log.debug("start-measurement")
+        let i = 0
+        const interval = setInterval(() => {
+            if (i === 10) {
+                clearInterval(interval)
+            }
+            const num = random()
+            patientData.score.push(num)
+            socket.emit("measurement", { score: num })
+            i++
+        }, 500)
     })
 
     socket.on("tare", () => {
