@@ -15,6 +15,8 @@
         "quotes": ["error", "double"],
         "no-self-assign": "error",
         "no-func-assign": "error",
-        "eqeqeq": ["error", "always"]
+        "eqeqeq": ["error", "always"],
+        "no-console": "error",
+        "no-duplicate-imports": "error"
     }
 }
