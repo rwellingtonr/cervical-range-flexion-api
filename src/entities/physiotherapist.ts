@@ -12,14 +12,12 @@ export class Physiotherapist {
 
     static async create({ coffito, name, password }: Physiotherapist): Promise<Physiotherapist> {
         const hash = await hashPassword(password)
-
         const content = {
             name: name.toLowerCase(),
             password: hash,
             coffito,
         }
-
-        const patient = new Physiotherapist(content)
-        return patient
+        const physiotherapist = new Physiotherapist(content)
+        return physiotherapist
     }
 }
