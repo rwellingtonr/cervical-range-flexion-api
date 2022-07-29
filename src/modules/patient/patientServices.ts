@@ -14,28 +14,28 @@ export default class PatientServices {
 
         const user = Patient.create(patient)
 
-        const patientInfo = await this.patientRepo.create(user)
-        return patientInfo
+        return await this.patientRepo.create(user)
     }
 
     async searchAll() {
         log.info("Searching all")
-
         return await this.patientRepo.findAll()
     }
 
     async findOne(id: string) {
         log.info(`Looking for ir ${id}`)
-        if (!id) throw { httpCode: 404, message: "Patient doesn't exist" }
-
         const patient = await this.patientRepo.findById(id)
-        return patient
+        if (!patient) throw { httpCode: 404, message: "Patient doesn't exist" }
+
+        const originalData = {
+            ...patient,
+            cpf: Patient.decryptCPF(patient.cpf),
+        }
+        return originalData
     }
 
     async unregister(id: string) {
         log.info(`Deleting id ${id}`)
-        if (!id) throw { httpCode: 404, message: "Patient doesn't exist" }
-
         return await this.patientRepo.delete(id)
     }
 }
