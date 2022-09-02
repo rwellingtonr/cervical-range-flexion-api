@@ -19,11 +19,11 @@ export default class PhysiotherapistRepo implements ICRUDRepo<Physiotherapist> {
         })
     }
     async findOne(coffito: string): Promise<Physiotherapist> {
-        const user = await prisma.physiotherapist.findFirst({ where: { coffito } })
+        const user = await prisma.physiotherapist.findUnique({ where: { coffito } })
         return user
     }
     async findById(id: string): Promise<Physiotherapist> {
-        return await prisma.physiotherapist.findFirst({
+        return await prisma.physiotherapist.findUnique({
             where: { id },
         })
     }
