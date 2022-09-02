@@ -58,7 +58,7 @@ export default class PhysiotherapistController {
 
             await this.service.unregister(professionalId)
 
-            return res.status(200).json({ message: `ID ${professionalId} has been deleted` })
+            return res.sendStatus(200)
         } catch (error) {
             log.error(error.message)
             return res.status(error.httpCode || 404).json({ error: error.message })
