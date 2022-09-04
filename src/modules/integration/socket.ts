@@ -1,8 +1,6 @@
 import { io } from "../../app"
 import { Socket } from "socket.io"
 import { emitSerial, startSerial } from "./serialPort"
-import PatientHistoryService from "../patientHistory/patientHistoryServices"
-import PatientDataRepo from "../../repositories/patient/patientDataRepo"
 import log from "../../utils/loggers"
 
 interface ISocketDTO {
