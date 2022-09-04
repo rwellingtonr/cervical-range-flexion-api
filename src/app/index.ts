@@ -6,7 +6,7 @@ import { errorHandling } from "../middleware/errorHandling"
 import { router } from "../router"
 import { Server } from "socket.io"
 
-import "../config/serialPort"
+import "../modules/integration/serialPort"
 import "../middleware/gracefulShutDown"
 
 const app = express()
