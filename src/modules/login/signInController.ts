@@ -12,9 +12,9 @@ export default class SingInController {
             const credentials = await this.service.signIn(coffito, password)
 
             return res.status(200).json(credentials)
-        } catch (error) {
-            log.error(error.message)
-            return res.status(400).json({ message: error.message })
+        } catch (err) {
+            log.error(err.message)
+            return res.status(err.httpCode || 400).json({ message: err.message })
         }
     }
 }

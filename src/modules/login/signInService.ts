@@ -8,6 +8,7 @@ export default class SignService {
     async signIn(coffito: string, password: string) {
         log.info("logging in")
         const professionalInfo = await this.physiotherapistRepo.findOne(coffito)
+        if (!professionalInfo) throw { httpCode: 404, message: "User does not exist" }
 
         const isValid = await comparePassword(password, professionalInfo.password)
 
