@@ -1,19 +1,16 @@
-import { io } from "../../app"
 import { Socket } from "socket.io"
-import { emitSerial, startSerial } from "./serialPort"
+import { connectSerial, emitSerial, startSerial } from "./serialPort"
+import { io } from "../../app"
 import log from "../../utils/loggers"
-
 interface ISocketDTO {
     patientId: string
     coffito: string
 }
-
 interface IPatientData {
     patientId: string
     coffito: string
     score: number[]
 }
-
 export const patientData: IPatientData = {
     patientId: "",
     coffito: "",
@@ -37,6 +34,14 @@ io.on("connection", (socket: Socket) => {
     socket.on("abort", () => {
         log.debug("Aborting process")
         emitSerial("abort")
+    })
+
+    socket.on("reconect-arduino", async () => {
+        try {
+            await connectSerial()
+        } catch (err) {
+            log.error(`Error to connect to serial port ${err}`)
+        }
     })
 
     socket.on("disconnect", (reason) => log.warn(reason))
