@@ -2,6 +2,9 @@ import { Socket } from "socket.io"
 import { connectSerial, emitSerial, startSerial } from "./serialPort"
 import { io } from "../../app"
 import log from "../../utils/loggers"
+import { calcMax } from "../../utils/math"
+import PatientHistoryService from "../patientHistory/patientHistoryServices"
+import PatientDataRepo from "../../repositories/patient/patientDataRepo"
 interface ISocketDTO {
     patientId: string
     coffito: string
@@ -28,7 +31,8 @@ io.on("connection", (socket: Socket) => {
 
     socket.on("tare", () => {
         log.debug("Tare")
-        startSerial()
+        const isOpen = startSerial()
+        if (!isOpen) socket.emit("error", { msg: "Erro ao conectar ao arduino" })
     })
 
     socket.on("abort", () => {
@@ -36,12 +40,22 @@ io.on("connection", (socket: Socket) => {
         emitSerial("abort")
     })
 
-    socket.on("reconect-arduino", async () => {
+    socket.on("save", async () => {
         try {
-            await connectSerial()
+            const { coffito, patientId, score } = patientData
+            const max = calcMax(score)
+            const history = new PatientHistoryService(new PatientDataRepo())
+            await history.appendPatientMeasurements(patientId, max, coffito)
         } catch (err) {
-            log.error(`Error to connect to serial port ${err}`)
+            socket.emit("error", { msg: "Erro ao salvar os dados!" })
+            log.error(`Error to save data: ${err}`)
         }
+    })
+
+    socket.on("reconect-arduino", async () => {
+        await connectSerial()
+        const isOpen = startSerial()
+        if (!isOpen) socket.emit("error", { msg: "Erro ao conectar ao arduino" })
     })
 
     socket.on("disconnect", (reason) => log.warn(reason))

@@ -1,40 +1,46 @@
 import "dotenv/config"
 import log from "../../utils/loggers"
-import { SerialPort, ReadlineParser } from "serialport"
+import { SerialPort, ReadlineParser, SerialPortOpenOptions } from "serialport"
 import { io } from "../../app"
 import { errorCb } from "../../utils/errorCb"
 import { patientData } from "./socket"
-import { calcMax } from "../../utils/math"
-import PatientHistoryService from "../patientHistory/patientHistoryServices"
-import PatientDataRepo from "../../repositories/patient/patientDataRepo"
 
 type EmitterStrings = "start" | "abort"
-
-let serialPort = new SerialPort({
-    path: " ",
+const config = {
+    path: process.env.ARDUINO_PORT,
     baudRate: 9600,
     autoOpen: false,
-})
-connectSerial().catch((e) => log.error(e))
+}
+
+let serialPort = new SerialPort(config)
+
+connectSerial()
+    .then(() => startSerial())
+    .catch((e) => log.error(e))
 
 export async function connectSerial() {
+    log.info("Connecting to arduino")
     const ports = await SerialPort.list()
     const arduino = ports.find((port) => port.manufacturer)
 
     serialPort = new SerialPort({
+        ...config,
         path: arduino?.path || process.env.ARDUINO_PORT,
-        baudRate: 9600,
-        autoOpen: false,
     })
 }
 
 const parser = serialPort.pipe(new ReadlineParser({ encoding: "utf-8" }))
 
+export const startSerial = () => {
+    serialPort.open(errorCb)
+    return serialPort.isOpen
+}
+
 export const emitSerial = (payload: EmitterStrings) => {
     return serialPort.write(payload, errorCb)
 }
 
-const handleEvent = async (event: string) => {
+const handleEvent = (event: string) => {
     if (/Received/.test(event)) return log.debug(event)
 
     switch (event.trim()) {
@@ -43,30 +49,21 @@ const handleEvent = async (event: string) => {
             break
         }
         case "end":
-            await handleEndProcess()
+            log.info("Coleta finalizada!")
             break
         default:
             handleReceivedValue(event)
             break
     }
 }
-const handleEndProcess = async () => {
-    log.info("Coleta finalizada!")
-    const { coffito, patientId, score } = patientData
-    const max = calcMax(score)
-    const history = new PatientHistoryService(new PatientDataRepo())
-    await history.appendPatientMeasurements(patientId, max, coffito)
-}
 
 const handleReceivedValue = (event: string) => {
     const [, value] = event.split("Value: ")
     log.debug(value)
-    const num = Number(value)
-    io.emit("measure", { num })
-    patientData.score.push(num)
+    const score = Number(value)
+    io.emit("measurement", { score })
+    patientData.score.push(score)
 }
-
-export const startSerial = () => serialPort.open(errorCb)
 
 parser.on("data", handleEvent)
 serialPort.on("open", () => log.info("Serial port is running!"))

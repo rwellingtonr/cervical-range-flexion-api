@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express"
 import { verify } from "jsonwebtoken"
-
+import log from "../utils/loggers"
 interface IPayload {
     sub: string
 }
@@ -20,7 +20,8 @@ const ensureAuthenticated = (req: Request, res: Response, next: NextFunction) =>
         req.physiotherapist_id = sub
 
         return next()
-    } catch (error) {
+    } catch (err) {
+        log.error(`Token inválido ${err}`)
         return res.status(401).json({ message: "token.expired" })
     }
 }
