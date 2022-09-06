@@ -19,6 +19,11 @@ export const patientData: IPatientData = {
     coffito: "",
     score: [],
 }
+const cleanUpPatientData = () => {
+    for (const key in patientData) {
+        delete patientData[key]
+    }
+}
 
 io.on("connection", (socket: Socket) => {
     log.debug(`Socket id ${socket.id}`)
@@ -46,6 +51,7 @@ io.on("connection", (socket: Socket) => {
             const max = calcMax(score)
             const history = new PatientHistoryService(new PatientDataRepo())
             await history.appendPatientMeasurements(patientId, max, coffito)
+            cleanUpPatientData()
         } catch (err) {
             socket.emit("error", { msg: "Erro ao salvar os dados!" })
             log.error(`Error to save data: ${err}`)

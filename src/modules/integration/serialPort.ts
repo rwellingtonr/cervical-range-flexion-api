@@ -1,11 +1,12 @@
 import "dotenv/config"
 import log from "../../utils/loggers"
-import { SerialPort, ReadlineParser, SerialPortOpenOptions } from "serialport"
+import { SerialPort, ReadlineParser } from "serialport"
 import { io } from "../../app"
 import { errorCb } from "../../utils/errorCb"
 import { patientData } from "./socket"
 
 type EmitterStrings = "start" | "abort"
+
 const config = {
     path: process.env.ARDUINO_PORT,
     baudRate: 9600,
@@ -22,10 +23,10 @@ export async function connectSerial() {
     log.info("Connecting to arduino")
     const ports = await SerialPort.list()
     const arduino = ports.find((port) => port.manufacturer)
-
+    if (!arduino) return
     serialPort = new SerialPort({
         ...config,
-        path: arduino?.path || process.env.ARDUINO_PORT,
+        path: arduino?.path,
     })
 }
 
@@ -50,6 +51,7 @@ const handleEvent = (event: string) => {
         }
         case "end":
             log.info("Coleta finalizada!")
+            io.emit("end")
             break
         default:
             handleReceivedValue(event)
