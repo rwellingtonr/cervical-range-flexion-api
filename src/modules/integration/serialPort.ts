@@ -26,7 +26,7 @@ export async function connectSerial() {
     if (!arduino) return
     serialPort = new SerialPort({
         ...config,
-        path: arduino?.path,
+        path: arduino.path,
     })
 }
 
