@@ -1,0 +1,135 @@
+{
+    "openapi": "3.0.2",
+    "info": {
+        "title": "TCC 2022",
+        "description": "Monitoramento da coluna cervical utilizando microcontrolador",
+        "termsOfService": "http://localhost:3001",
+        "version": "1.0",
+        "contact": {
+            "name": "Wellington Leardini Ramos",
+            "url": "https://www.linkedin.com/in/leardiniramoswellington/"
+        }
+    },
+    "servers": [
+        {
+            "url": "http://localhost:3001",
+            "description": "API do TCC"
+        }
+    ],
+    "components": {
+        "schemas": {
+            "LoginDTO": {
+                "type": "object",
+                "properties": {
+                    "coffito": {
+                        "type": "string",
+                        "pattern": "^example-[0-9]+$"
+                    },
+                    "password": {
+                        "type": "string",
+                        "pattern": "^example-[0-9a-z]+$"
+                    }
+                }
+            },
+            "Login": {
+                "type": "object",
+                "required": ["token", "physiotherapist"],
+                "properties": {
+                    "token": {
+                        "type": "string",
+                        "description": "token jwt"
+                    },
+                    "physiotherapist": {
+                        "type": "object",
+                        "description": "Dados do fisioterapeuta",
+                        "properties": {
+                            "id": { "type": "string" },
+                            "name": { "type": "string" },
+                            "coffito": { "type": "string" }
+                        }
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
+        }
+    },
+    "paths": {
+        "/signin": {
+            "post": {
+                "description": "Realiza o login na aplicação",
+                "tags": ["Login"],
+                "requestBody": {
+                    "content": {
+                        "appication/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/LoginDTO"
+                            },
+                            "examples": {
+                                "login": {
+                                    "summary": "Exemplo de login",
+                                    "value": {
+                                        "coffito": "112222",
+                                        "password": "12kljj3hlk"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "401": {
+                        "description": "Not authorized"
+                    },
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Login"
+                                },
+                                "examples": {
+                                    "loggedIn": {
+                                        "value": {
+                                            "token": "ahdksbndkhhquhddnnaoiudhlbjbv",
+                                            "physiotherapist": {
+                                                "id": "jjjjj-3333-1111",
+                                                "name": "swagger",
+                                                "coffito": "2222111"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/patient": {
+            "get": {
+                "description": "Retorna todos os pacientes cadastrados",
+                "summary": "Listar Clientes",
+                "tags": ["Clients"],
+                "security": [{ "bearerAuth": [] }],
+                "parameters": [],
+                "responses": {
+                    "404": {
+                        "description": "Not found"
+                    },
+                    "400": {
+                        "description": "bad request"
+                    },
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        }
+    }
+}
