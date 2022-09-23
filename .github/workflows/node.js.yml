@@ -29,8 +29,8 @@ jobs:
     - run: yarn --frozen-lockfile
     - run: yarn build
       env:
-        PORT: ${{ secrets.PORT }}
-        JWT_SECRET: ${{ secrets.JWT_SECRET }}
-        CRYPTOGRAPHY_PAYLOAD: ${{ secrets.CRYPTOGRAPHY_PAYLOAD }}
-        ARDUINO_PORT: ${{ secrets.ARDUINO_PORT }}
+        PORT: ${{ github.PORT }}
+        JWT_SECRET: ${{ github.JWT_SECRET }}
+        CRYPTOGRAPHY_PAYLOAD: ${{ github.CRYPTOGRAPHY_PAYLOAD }}
+        ARDUINO_PORT: ${{ github.ARDUINO_PORT }}
     - run: yarn test
