@@ -35,10 +35,10 @@ export default class PhysiotherapistService {
         return physiotherapist
     }
 
-    async updatePassword(id: string, newPassword: string) {
-        const prevData = await this.physiotherapistRepo.findById(id)
+    async updatePassword(crefito: string, newPassword: string) {
+        const prevData = await this.physiotherapistRepo.findByCrefito(crefito)
 
-        if (!prevData) throw { httpCode: 404, message: "Could't find this one" }
+        if (!prevData) throw { httpCode: 404, message: "Could't find this person" }
 
         const isTheSamePassword = await comparePassword(newPassword, prevData.password)
 
@@ -48,7 +48,7 @@ export default class PhysiotherapistService {
 
         const updateData = { ...prevData, password: hash }
 
-        return await this.physiotherapistRepo.update(id, updateData)
+        return await this.physiotherapistRepo.update(prevData.id, updateData)
     }
     async unregister(id: string) {
         return await this.physiotherapistRepo.delete(id)

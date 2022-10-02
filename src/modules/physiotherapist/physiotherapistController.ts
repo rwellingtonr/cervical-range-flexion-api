@@ -40,10 +40,10 @@ export default class PhysiotherapistController {
 
     async updatePassword(req: Request, res: Response) {
         try {
-            const { professionalId } = req.params
-            const { newPassword } = req.body
+            const { crefitoId } = req.params
+            const { password } = req.body
 
-            const updated = await this.service.updatePassword(professionalId, newPassword)
+            const updated = await this.service.updatePassword(crefitoId, password)
 
             return res.status(200).json(updated)
         } catch (error) {

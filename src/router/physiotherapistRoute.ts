@@ -14,7 +14,7 @@ router
     .delete((req, res) => physioController.deleteProfessional(req, res))
 
 noAuthRoute.post("/", (req, res) => physioController.createProfessional(req, res))
-noAuthRoute.patch("/:professionalId", (req, res) => physioController.updatePassword(req, res))
+noAuthRoute.patch("/:crefitoId", (req, res) => physioController.updatePassword(req, res))
 
 physiotherapistRouter.use("/physiotherapist", noAuthRoute)
 physiotherapistRouter.use("/physiotherapist", ensureAuthenticated, router)
