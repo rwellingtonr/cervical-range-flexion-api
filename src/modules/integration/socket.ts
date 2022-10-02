@@ -1,5 +1,5 @@
 import { Socket } from "socket.io"
-import { connectSerial, emitSerial, startSerial } from "./serialPort"
+import { connectSerial, emitSerial, isSerialPortOpen, startSerial } from "./serialPort"
 import { io } from "../../app"
 import log from "../../utils/loggers"
 import { calcMax } from "../../utils/math"
@@ -36,8 +36,14 @@ io.on("connection", (socket: Socket) => {
 
     socket.on("tare", () => {
         log.debug("Tare")
-        const isOpen = startSerial()
-        if (!isOpen) socket.emit("error", { msg: "Erro ao conectar ao arduino" })
+        const isOpen = isSerialPortOpen()
+        log.debug("aqui", isSerialPortOpen())
+        if (!isOpen) {
+            return socket.emit("message", {
+                status: "error",
+                msg: "Reconecte o arduino",
+            })
+        }
     })
 
     socket.on("abort", () => {
@@ -53,16 +59,19 @@ io.on("connection", (socket: Socket) => {
             await history.appendPatientMeasurements(patientId, max, crefito)
             cleanUpPatientData()
         } catch (err) {
-            socket.emit("error", { msg: "Erro ao salvar os dados!" })
+            socket.emit("message", { status: "error", msg: "Erro ao salvar os dados!" })
             log.error(`Error to save data: ${err}`)
         }
     })
 
     socket.on("reconect-arduino", async () => {
         await connectSerial()
-        const isOpen = startSerial()
-        if (!isOpen) socket.emit("error", { msg: "Erro ao conectar ao arduino" })
+        const isOpen = await startSerial()
+        log.debug(isOpen)
+        if (!isOpen) {
+            return socket.emit("message", { status: "error", msg: "Erro ao conectar ao arduino" })
+        }
     })
 
-    socket.on("disconnect", (reason) => log.warn(reason))
+    socket.on("disconnect", (reason) => log.warn("Socket: ", reason))
 })

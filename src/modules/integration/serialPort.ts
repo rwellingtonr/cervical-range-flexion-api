@@ -15,33 +15,51 @@ const config = {
 
 let serialPort = new SerialPort(config)
 
-connectSerial()
-    .then(() => startSerial())
-    .catch((e) => log.error(e))
+connectSerial().catch((err) => log.error(err))
 
 export async function connectSerial() {
     log.info("Connecting to arduino")
     const ports = await SerialPort.list()
     const arduino = ports.find((port) => port.manufacturer)
-    if (!arduino) return
-    serialPort = new SerialPort({
-        ...config,
-        path: arduino.path,
-    })
+    if (arduino) {
+        log.debug("Arduino:", arduino)
+        serialPort = new SerialPort({
+            ...config,
+            path: arduino.path,
+        })
+        await startSerial()
+    }
 }
 
 const parser = serialPort.pipe(new ReadlineParser({ encoding: "utf-8" }))
 
-export const startSerial = () => {
-    serialPort.open(errorCb)
-    return serialPort.isOpen
+function startSerialPort() {
+    return new Promise((resolve, reject) => {
+        serialPort.open((err) => {
+            if (err) return reject(err)
+            return resolve("OK")
+        })
+    })
 }
+
+export const startSerial = async () => {
+    try {
+        await startSerialPort()
+        log.info(`Is serial port open? ${serialPort.isOpen}`)
+        return serialPort.isOpen
+    } catch (err) {
+        log.error(err)
+        return false
+    }
+}
+export const isSerialPortOpen = () => serialPort.isOpen
 
 export const emitSerial = (payload: EmitterStrings) => {
     return serialPort.write(payload, errorCb)
 }
 
 const handleEvent = (event: string) => {
+    log.debug(event)
     if (/Received/.test(event)) return log.debug(event)
 
     switch (event.trim()) {
