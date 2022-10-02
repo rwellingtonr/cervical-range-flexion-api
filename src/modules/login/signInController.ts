@@ -7,9 +7,9 @@ export default class SingInController {
     constructor(private readonly service: SignService) {}
     async handle(req: Request, res: Response) {
         try {
-            const { coffito, password } = req.body
+            const { crefito, password } = req.body
 
-            const credentials = await this.service.signIn(coffito, password)
+            const credentials = await this.service.signIn(crefito, password)
 
             return res.status(200).json(credentials)
         } catch (err) {

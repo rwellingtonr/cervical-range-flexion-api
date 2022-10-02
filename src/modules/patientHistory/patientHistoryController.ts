@@ -22,8 +22,8 @@ export default class PatientHistoryController {
 
     async addMeasurement(req: Request, res: Response) {
         try {
-            const { patientId, score, coffito } = req.body
-            await this.service.appendPatientMeasurements(patientId, score, coffito)
+            const { patientId, score, crefito } = req.body
+            await this.service.appendPatientMeasurements(patientId, score, crefito)
             return res.sendStatus(201)
         } catch (error) {
             log.error(error.message)

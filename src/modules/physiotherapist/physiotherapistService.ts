@@ -8,7 +8,7 @@ export default class PhysiotherapistService {
     async register(userInfo: Physiotherapist) {
         log.info(`Creating user: ${userInfo.name}`)
 
-        const alreadyExists = await this.physiotherapistRepo.findOne(userInfo.coffito)
+        const alreadyExists = await this.physiotherapistRepo.findOne(userInfo.crefito)
 
         if (alreadyExists) throw { httpCode: 409, message: "This physiotherapist already exists" }
 

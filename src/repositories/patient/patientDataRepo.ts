@@ -15,12 +15,12 @@ export default class PatientDataRepo implements IPatientDataRepo {
 
         return patientHistory
     }
-    async addMeasurement(patientId: string, score: number, coffito: string) {
+    async addMeasurement(patientId: string, score: number, crefito: string) {
         return await prisma.patientData.create({
             data: {
                 score,
                 patient_id: patientId,
-                physio_coffito: coffito,
+                physio_crefito: crefito,
             },
         })
     }

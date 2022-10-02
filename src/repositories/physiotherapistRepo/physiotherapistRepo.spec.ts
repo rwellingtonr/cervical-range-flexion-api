@@ -14,7 +14,7 @@ describe("Test the Physiotherapist repository", () => {
 
     it("should create a physiotherapist", async () => {
         const physiotherapist: Physiotherapist = {
-            coffito: randomUUID(),
+            crefito: randomUUID(),
             name: "jest name",
             password: "any one",
         }
@@ -25,20 +25,20 @@ describe("Test the Physiotherapist repository", () => {
 
     it("should find one", async () => {
         const physiotherapist: Physiotherapist = {
-            coffito: randomUUID(),
+            crefito: randomUUID(),
             name: "jest name",
             password: "any one",
         }
         const created = await repo.create(physiotherapist)
         id = created.id as string
 
-        const result = await repo.findOne(created.coffito)
+        const result = await repo.findOne(created.crefito)
         expect(result).toMatchObject(physiotherapist)
     })
 
     it("should find by id", async () => {
         const physiotherapist: Physiotherapist = {
-            coffito: randomUUID(),
+            crefito: randomUUID(),
             name: "jest name",
             password: "any one",
         }
@@ -50,7 +50,7 @@ describe("Test the Physiotherapist repository", () => {
 
     it("should update a physiotherapist", async () => {
         const physiotherapist: Physiotherapist = {
-            coffito: randomUUID(),
+            crefito: randomUUID(),
             name: "jest name",
             password: "any one",
         }
@@ -58,8 +58,8 @@ describe("Test the Physiotherapist repository", () => {
         id = created.id as string
         const result = await repo.update(created.id as string, {
             ...physiotherapist,
-            coffito: "12903781290",
+            crefito: "12903781290",
         })
-        expect(result).toMatchObject({ ...physiotherapist, coffito: "12903781290" })
+        expect(result).toMatchObject({ ...physiotherapist, crefito: "12903781290" })
     })
 })

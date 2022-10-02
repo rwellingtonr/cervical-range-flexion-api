@@ -1,1 +1,375 @@
-{"_type":"export","__export_format":4,"__export_date":"2022-05-09T11:33:50.295Z","__export_source":"insomnia.desktop.app:v2022.2.1","resources":[{"_id":"req_2b713c57df2849b39c0591b55a78ff9e","parentId":"fld_0e36f0f97cd24f84a8be06ba743c70f0","modified":1651945909850,"created":1651945641405,"url":"{{ _.url }}/history/49afb111-b6b7-40d6-b84c-b84c3b65d924","name":"getHistory","description":"","method":"GET","body":{},"parameters":[{"id":"pair_6e8ec4995b5146a0bd74745470efad65","name":"firstDate","value":"2022-04-07T17:41:58.675Z","description":""},{"id":"pair_eec83520fbeb4166be8924675c2dd366","name":"lastDate","value":"2022-05-07T17:41:58.675Z","description":""}],"headers":[],"authentication":{},"metaSortKey":-1651945217036,"isPrivate":false,"settingStoreCookies":true,"settingSendCookies":true,"settingDisableRenderRequestBody":false,"settingEncodeUrl":true,"settingRebuildPath":true,"settingFollowRedirects":"global","_type":"request"},{"_id":"fld_0e36f0f97cd24f84a8be06ba743c70f0","parentId":"wrk_75446acf89ae4010a65f63f5d22b1731","modified":1651945616822,"created":1651945616822,"name":"history","description":"","environment":{},"environmentPropertyOrder":null,"metaSortKey":-1651945616822,"_type":"request_group"},{"_id":"wrk_75446acf89ae4010a65f63f5d22b1731","parentId":null,"modified":1647435365529,"created":1647435365529,"name":"New Document","description":"","scope":"design","_type":"workspace"},{"_id":"req_67c682c6f72c497e9f6d8261f7e72294","parentId":"fld_0e36f0f97cd24f84a8be06ba743c70f0","modified":1651945939031,"created":1651945216986,"url":"{{ _.url }}/append","name":"add measurement","description":"","method":"POST","body":{"mimeType":"application/json","text":"{ \n\t\"patientId\": \"49afb111-b6b7-40d6-b84c-b84c3b65d924\", \n\t\"score\": 4, \n\t\"coffito\": \"1234\"\n}"},"parameters":[],"headers":[{"name":"Content-Type","value":"application/json","id":"pair_ae0c41d5b9194865949831d67c3c57e8"}],"authentication":{},"metaSortKey":-1651945216986,"isPrivate":false,"settingStoreCookies":true,"settingSendCookies":true,"settingDisableRenderRequestBody":false,"settingEncodeUrl":true,"settingRebuildPath":true,"settingFollowRedirects":"global","_type":"request"},{"_id":"req_7dbfbb3c4a3847219725a6c6ec093a7a","parentId":"fld_1cf7db57d43e4cfc8c12cb904a60c481","modified":1651940371074,"created":1651940369904,"url":"{{ _.url }}/patient","name":"get all","description":"","method":"GET","body":{},"parameters":[],"headers":[],"authentication":{},"metaSortKey":-1651940369904,"isPrivate":false,"settingStoreCookies":true,"settingSendCookies":true,"settingDisableRenderRequestBody":false,"settingEncodeUrl":true,"settingRebuildPath":true,"settingFollowRedirects":"global","_type":"request"},{"_id":"fld_1cf7db57d43e4cfc8c12cb904a60c481","parentId":"wrk_75446acf89ae4010a65f63f5d22b1731","modified":1651939589375,"created":1651939589375,"name":"Patient","description":"","environment":{},"environmentPropertyOrder":null,"metaSortKey":-1651939589375,"_type":"request_group"},{"_id":"req_33336f49fd6e4c1d9c27acad0205f2b7","parentId":"fld_1cf7db57d43e4cfc8c12cb904a60c481","modified":1652095989292,"created":1651939726470,"url":"{{ _.url }}/patient","name":"Create","description":"","method":"POST","body":{"mimeType":"application/json","text":"{\n\t\"cpf\": \"111134\",\n\t\"name\": \"well24\",\n\t\"gender\": \"masculino\",\n\t\"surgery_date\": \"{% now 'custom', '' %}\",\n\t\"birthday\": \"{% now 'custom', '' %}\"\n}"},"parameters":[],"headers":[{"name":"Content-Type","value":"application/json","id":"pair_78bdb94e470041e49c38512d7a97b984"}],"authentication":{},"metaSortKey":-1651939726470,"isPrivate":false,"settingStoreCookies":true,"settingSendCookies":true,"settingDisableRenderRequestBody":false,"settingEncodeUrl":true,"settingRebuildPath":true,"settingFollowRedirects":"global","_type":"request"},{"_id":"req_b767067fc915417bb45a617e1a1729ad","parentId":"fld_9dd5f57987c14e0ba2d4a3af834e504c","modified":1651939618350,"created":1651939474367,"url":"{{ _.beseUrl }}/physiotherapist/b886e4c1-fd7e-4d8f-b71c-62711b94642b","name":"Delete","description":"","method":"DELETE","body":{},"parameters":[],"headers":[],"authentication":{},"metaSortKey":-1651939474367,"isPrivate":false,"settingStoreCookies":true,"settingSendCookies":true,"settingDisableRenderRequestBody":false,"settingEncodeUrl":true,"settingRebuildPath":true,"settingFollowRedirects":"global","_type":"request"},{"_id":"fld_9dd5f57987c14e0ba2d4a3af834e504c","parentId":"wrk_75446acf89ae4010a65f63f5d22b1731","modified":1651939578400,"created":1651934749761,"name":"Physioterapist","description":"","environment":{},"environmentPropertyOrder":null,"metaSortKey":-1651934749761,"_type":"request_group"},{"_id":"req_b0b22494d24b491aa976f71355c61e08","parentId":"fld_9dd5f57987c14e0ba2d4a3af834e504c","modified":1651938177621,"created":1651938172396,"url":"{{ _.beseUrl }}/physiotherapist/","name":"findAll","description":"","method":"GET","body":{},"parameters":[],"headers":[],"authentication":{},"metaSortKey":-1651938172396,"isPrivate":false,"settingStoreCookies":true,"settingSendCookies":true,"settingDisableRenderRequestBody":false,"settingEncodeUrl":true,"settingRebuildPath":true,"settingFollowRedirects":"global","_type":"request"},{"_id":"req_c0a3c45b4fd745feba86a55428dd95a3","parentId":"fld_9dd5f57987c14e0ba2d4a3af834e504c","modified":1651939253531,"created":1651937874373,"url":"{{ _.beseUrl }}/physiotherapist/8270039d-e210-4b33-9d5b-6ff1f7b167d0","name":"findOne","description":"","method":"GET","body":{},"parameters":[],"headers":[],"authentication":{},"metaSortKey":-1651937874373,"isPrivate":false,"settingStoreCookies":true,"settingSendCookies":true,"settingDisableRenderRequestBody":false,"settingEncodeUrl":true,"settingRebuildPath":true,"settingFollowRedirects":"global","_type":"request"},{"_id":"req_754fbfb358174a3ab5c7bcc28ebbe25a","parentId":"fld_9dd5f57987c14e0ba2d4a3af834e504c","modified":1651946760866,"created":1651934823155,"url":"{{ _.beseUrl }}/physiotherapist/","name":"Create","description":"","method":"POST","body":{"mimeType":"application/json","text":"{\n\t\"name\": \"wellington2\",\n\t\"password\": \"1234\",\n\t\"coffito\": \"12234\"\n}"},"parameters":[],"headers":[{"name":"Content-Type","value":"application/json","id":"pair_90f383a881974cc1b8f44d74dc51780e"}],"authentication":{},"metaSortKey":-1651934823155,"isPrivate":false,"settingStoreCookies":true,"settingSendCookies":true,"settingDisableRenderRequestBody":false,"settingEncodeUrl":true,"settingRebuildPath":true,"settingFollowRedirects":"global","_type":"request"},{"_id":"req_f6ba87ad33c84ca69a7cab32b2fea9bc","parentId":"fld_82efe6ee7d4446b39fe76db3f286eb26","modified":1651946494000,"created":1647435365618,"url":"{{ _.beseUrl }}/signin","name":"Signin","description":"","method":"POST","body":{"mimeType":"application/json","text":"{\n\t\"password\": \"1234\",\n\t\"coffito\": \"1234\"\n}"},"parameters":[],"headers":[{"name":"Content-Type","value":"application/json","id":"pair_02bbcd68e68d44a9845553f406b55e3c"}],"authentication":{},"metaSortKey":-1647435365618,"isPrivate":false,"settingStoreCookies":true,"settingSendCookies":true,"settingDisableRenderRequestBody":false,"settingEncodeUrl":true,"settingRebuildPath":true,"settingFollowRedirects":"global","_type":"request"},{"_id":"fld_82efe6ee7d4446b39fe76db3f286eb26","parentId":"wrk_75446acf89ae4010a65f63f5d22b1731","modified":1651934741147,"created":1651934741147,"name":"Sign in","description":"","environment":{},"environmentPropertyOrder":null,"metaSortKey":-1651934741147,"_type":"request_group"},{"_id":"env_c9083e4a8a37baf21a895498d70d38b93b9048d1","parentId":"wrk_75446acf89ae4010a65f63f5d22b1731","modified":1651934409493,"created":1647435365587,"name":"Base Environment","data":{"beseUrl":"http://localhost:3001"},"dataPropertyOrder":{"&":["beseUrl"]},"color":null,"isPrivate":false,"metaSortKey":1647435365587,"_type":"environment"},{"_id":"jar_c9083e4a8a37baf21a895498d70d38b93b9048d1","parentId":"wrk_75446acf89ae4010a65f63f5d22b1731","modified":1647435365603,"created":1647435365603,"name":"Default Jar","cookies":[],"_type":"cookie_jar"},{"_id":"spc_ce37d0ce6d3f40af8aa027b7a662a8c4","parentId":"wrk_75446acf89ae4010a65f63f5d22b1731","modified":1652095975913,"created":1647435365571,"fileName":"New Document","contents":"","contentType":"yaml","_type":"api_spec"},{"_id":"uts_1b0080c3eb5d49c4a151545b5df23c90","parentId":"wrk_75446acf89ae4010a65f63f5d22b1731","modified":1647435365623,"created":1647435365623,"name":"Example Test Suite","_type":"unit_test_suite"},{"_id":"env_df12f88131a64523808c6c243139b659","parentId":"env_c9083e4a8a37baf21a895498d70d38b93b9048d1","modified":1651939516933,"created":1651934413315,"name":"Dev","data":{"url":"http://localhost:3001"},"dataPropertyOrder":{"&":["url"]},"color":"#c328d7","isPrivate":false,"metaSortKey":1651934413315,"_type":"environment"}]}
+{
+    "_type": "export",
+    "__export_format": 4,
+    "__export_date": "2022-05-09T11:33:50.295Z",
+    "__export_source": "insomnia.desktop.app:v2022.2.1",
+    "resources": [
+        {
+            "_id": "req_2b713c57df2849b39c0591b55a78ff9e",
+            "parentId": "fld_0e36f0f97cd24f84a8be06ba743c70f0",
+            "modified": 1651945909850,
+            "created": 1651945641405,
+            "url": "{{ _.url }}/history/49afb111-b6b7-40d6-b84c-b84c3b65d924",
+            "name": "getHistory",
+            "description": "",
+            "method": "GET",
+            "body": {},
+            "parameters": [
+                {
+                    "id": "pair_6e8ec4995b5146a0bd74745470efad65",
+                    "name": "firstDate",
+                    "value": "2022-04-07T17:41:58.675Z",
+                    "description": ""
+                },
+                {
+                    "id": "pair_eec83520fbeb4166be8924675c2dd366",
+                    "name": "lastDate",
+                    "value": "2022-05-07T17:41:58.675Z",
+                    "description": ""
+                }
+            ],
+            "headers": [],
+            "authentication": {},
+            "metaSortKey": -1651945217036,
+            "isPrivate": false,
+            "settingStoreCookies": true,
+            "settingSendCookies": true,
+            "settingDisableRenderRequestBody": false,
+            "settingEncodeUrl": true,
+            "settingRebuildPath": true,
+            "settingFollowRedirects": "global",
+            "_type": "request"
+        },
+        {
+            "_id": "fld_0e36f0f97cd24f84a8be06ba743c70f0",
+            "parentId": "wrk_75446acf89ae4010a65f63f5d22b1731",
+            "modified": 1651945616822,
+            "created": 1651945616822,
+            "name": "history",
+            "description": "",
+            "environment": {},
+            "environmentPropertyOrder": null,
+            "metaSortKey": -1651945616822,
+            "_type": "request_group"
+        },
+        {
+            "_id": "wrk_75446acf89ae4010a65f63f5d22b1731",
+            "parentId": null,
+            "modified": 1647435365529,
+            "created": 1647435365529,
+            "name": "New Document",
+            "description": "",
+            "scope": "design",
+            "_type": "workspace"
+        },
+        {
+            "_id": "req_67c682c6f72c497e9f6d8261f7e72294",
+            "parentId": "fld_0e36f0f97cd24f84a8be06ba743c70f0",
+            "modified": 1651945939031,
+            "created": 1651945216986,
+            "url": "{{ _.url }}/append",
+            "name": "add measurement",
+            "description": "",
+            "method": "POST",
+            "body": {
+                "mimeType": "application/json",
+                "text": "{ \n\t\"patientId\": \"49afb111-b6b7-40d6-b84c-b84c3b65d924\", \n\t\"score\": 4, \n\t\"crefito\": \"1234\"\n}"
+            },
+            "parameters": [],
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "application/json",
+                    "id": "pair_ae0c41d5b9194865949831d67c3c57e8"
+                }
+            ],
+            "authentication": {},
+            "metaSortKey": -1651945216986,
+            "isPrivate": false,
+            "settingStoreCookies": true,
+            "settingSendCookies": true,
+            "settingDisableRenderRequestBody": false,
+            "settingEncodeUrl": true,
+            "settingRebuildPath": true,
+            "settingFollowRedirects": "global",
+            "_type": "request"
+        },
+        {
+            "_id": "req_7dbfbb3c4a3847219725a6c6ec093a7a",
+            "parentId": "fld_1cf7db57d43e4cfc8c12cb904a60c481",
+            "modified": 1651940371074,
+            "created": 1651940369904,
+            "url": "{{ _.url }}/patient",
+            "name": "get all",
+            "description": "",
+            "method": "GET",
+            "body": {},
+            "parameters": [],
+            "headers": [],
+            "authentication": {},
+            "metaSortKey": -1651940369904,
+            "isPrivate": false,
+            "settingStoreCookies": true,
+            "settingSendCookies": true,
+            "settingDisableRenderRequestBody": false,
+            "settingEncodeUrl": true,
+            "settingRebuildPath": true,
+            "settingFollowRedirects": "global",
+            "_type": "request"
+        },
+        {
+            "_id": "fld_1cf7db57d43e4cfc8c12cb904a60c481",
+            "parentId": "wrk_75446acf89ae4010a65f63f5d22b1731",
+            "modified": 1651939589375,
+            "created": 1651939589375,
+            "name": "Patient",
+            "description": "",
+            "environment": {},
+            "environmentPropertyOrder": null,
+            "metaSortKey": -1651939589375,
+            "_type": "request_group"
+        },
+        {
+            "_id": "req_33336f49fd6e4c1d9c27acad0205f2b7",
+            "parentId": "fld_1cf7db57d43e4cfc8c12cb904a60c481",
+            "modified": 1652095989292,
+            "created": 1651939726470,
+            "url": "{{ _.url }}/patient",
+            "name": "Create",
+            "description": "",
+            "method": "POST",
+            "body": {
+                "mimeType": "application/json",
+                "text": "{\n\t\"cpf\": \"111134\",\n\t\"name\": \"well24\",\n\t\"gender\": \"masculino\",\n\t\"surgery_date\": \"{% now 'custom', '' %}\",\n\t\"birthday\": \"{% now 'custom', '' %}\"\n}"
+            },
+            "parameters": [],
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "application/json",
+                    "id": "pair_78bdb94e470041e49c38512d7a97b984"
+                }
+            ],
+            "authentication": {},
+            "metaSortKey": -1651939726470,
+            "isPrivate": false,
+            "settingStoreCookies": true,
+            "settingSendCookies": true,
+            "settingDisableRenderRequestBody": false,
+            "settingEncodeUrl": true,
+            "settingRebuildPath": true,
+            "settingFollowRedirects": "global",
+            "_type": "request"
+        },
+        {
+            "_id": "req_b767067fc915417bb45a617e1a1729ad",
+            "parentId": "fld_9dd5f57987c14e0ba2d4a3af834e504c",
+            "modified": 1651939618350,
+            "created": 1651939474367,
+            "url": "{{ _.beseUrl }}/physiotherapist/b886e4c1-fd7e-4d8f-b71c-62711b94642b",
+            "name": "Delete",
+            "description": "",
+            "method": "DELETE",
+            "body": {},
+            "parameters": [],
+            "headers": [],
+            "authentication": {},
+            "metaSortKey": -1651939474367,
+            "isPrivate": false,
+            "settingStoreCookies": true,
+            "settingSendCookies": true,
+            "settingDisableRenderRequestBody": false,
+            "settingEncodeUrl": true,
+            "settingRebuildPath": true,
+            "settingFollowRedirects": "global",
+            "_type": "request"
+        },
+        {
+            "_id": "fld_9dd5f57987c14e0ba2d4a3af834e504c",
+            "parentId": "wrk_75446acf89ae4010a65f63f5d22b1731",
+            "modified": 1651939578400,
+            "created": 1651934749761,
+            "name": "Physioterapist",
+            "description": "",
+            "environment": {},
+            "environmentPropertyOrder": null,
+            "metaSortKey": -1651934749761,
+            "_type": "request_group"
+        },
+        {
+            "_id": "req_b0b22494d24b491aa976f71355c61e08",
+            "parentId": "fld_9dd5f57987c14e0ba2d4a3af834e504c",
+            "modified": 1651938177621,
+            "created": 1651938172396,
+            "url": "{{ _.beseUrl }}/physiotherapist/",
+            "name": "findAll",
+            "description": "",
+            "method": "GET",
+            "body": {},
+            "parameters": [],
+            "headers": [],
+            "authentication": {},
+            "metaSortKey": -1651938172396,
+            "isPrivate": false,
+            "settingStoreCookies": true,
+            "settingSendCookies": true,
+            "settingDisableRenderRequestBody": false,
+            "settingEncodeUrl": true,
+            "settingRebuildPath": true,
+            "settingFollowRedirects": "global",
+            "_type": "request"
+        },
+        {
+            "_id": "req_c0a3c45b4fd745feba86a55428dd95a3",
+            "parentId": "fld_9dd5f57987c14e0ba2d4a3af834e504c",
+            "modified": 1651939253531,
+            "created": 1651937874373,
+            "url": "{{ _.beseUrl }}/physiotherapist/8270039d-e210-4b33-9d5b-6ff1f7b167d0",
+            "name": "findOne",
+            "description": "",
+            "method": "GET",
+            "body": {},
+            "parameters": [],
+            "headers": [],
+            "authentication": {},
+            "metaSortKey": -1651937874373,
+            "isPrivate": false,
+            "settingStoreCookies": true,
+            "settingSendCookies": true,
+            "settingDisableRenderRequestBody": false,
+            "settingEncodeUrl": true,
+            "settingRebuildPath": true,
+            "settingFollowRedirects": "global",
+            "_type": "request"
+        },
+        {
+            "_id": "req_754fbfb358174a3ab5c7bcc28ebbe25a",
+            "parentId": "fld_9dd5f57987c14e0ba2d4a3af834e504c",
+            "modified": 1651946760866,
+            "created": 1651934823155,
+            "url": "{{ _.beseUrl }}/physiotherapist/",
+            "name": "Create",
+            "description": "",
+            "method": "POST",
+            "body": {
+                "mimeType": "application/json",
+                "text": "{\n\t\"name\": \"wellington2\",\n\t\"password\": \"1234\",\n\t\"crefito\": \"12234\"\n}"
+            },
+            "parameters": [],
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "application/json",
+                    "id": "pair_90f383a881974cc1b8f44d74dc51780e"
+                }
+            ],
+            "authentication": {},
+            "metaSortKey": -1651934823155,
+            "isPrivate": false,
+            "settingStoreCookies": true,
+            "settingSendCookies": true,
+            "settingDisableRenderRequestBody": false,
+            "settingEncodeUrl": true,
+            "settingRebuildPath": true,
+            "settingFollowRedirects": "global",
+            "_type": "request"
+        },
+        {
+            "_id": "req_f6ba87ad33c84ca69a7cab32b2fea9bc",
+            "parentId": "fld_82efe6ee7d4446b39fe76db3f286eb26",
+            "modified": 1651946494000,
+            "created": 1647435365618,
+            "url": "{{ _.beseUrl }}/signin",
+            "name": "Signin",
+            "description": "",
+            "method": "POST",
+            "body": {
+                "mimeType": "application/json",
+                "text": "{\n\t\"password\": \"1234\",\n\t\"crefito\": \"1234\"\n}"
+            },
+            "parameters": [],
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "application/json",
+                    "id": "pair_02bbcd68e68d44a9845553f406b55e3c"
+                }
+            ],
+            "authentication": {},
+            "metaSortKey": -1647435365618,
+            "isPrivate": false,
+            "settingStoreCookies": true,
+            "settingSendCookies": true,
+            "settingDisableRenderRequestBody": false,
+            "settingEncodeUrl": true,
+            "settingRebuildPath": true,
+            "settingFollowRedirects": "global",
+            "_type": "request"
+        },
+        {
+            "_id": "fld_82efe6ee7d4446b39fe76db3f286eb26",
+            "parentId": "wrk_75446acf89ae4010a65f63f5d22b1731",
+            "modified": 1651934741147,
+            "created": 1651934741147,
+            "name": "Sign in",
+            "description": "",
+            "environment": {},
+            "environmentPropertyOrder": null,
+            "metaSortKey": -1651934741147,
+            "_type": "request_group"
+        },
+        {
+            "_id": "env_c9083e4a8a37baf21a895498d70d38b93b9048d1",
+            "parentId": "wrk_75446acf89ae4010a65f63f5d22b1731",
+            "modified": 1651934409493,
+            "created": 1647435365587,
+            "name": "Base Environment",
+            "data": { "beseUrl": "http://localhost:3001" },
+            "dataPropertyOrder": { "&": ["beseUrl"] },
+            "color": null,
+            "isPrivate": false,
+            "metaSortKey": 1647435365587,
+            "_type": "environment"
+        },
+        {
+            "_id": "jar_c9083e4a8a37baf21a895498d70d38b93b9048d1",
+            "parentId": "wrk_75446acf89ae4010a65f63f5d22b1731",
+            "modified": 1647435365603,
+            "created": 1647435365603,
+            "name": "Default Jar",
+            "cookies": [],
+            "_type": "cookie_jar"
+        },
+        {
+            "_id": "spc_ce37d0ce6d3f40af8aa027b7a662a8c4",
+            "parentId": "wrk_75446acf89ae4010a65f63f5d22b1731",
+            "modified": 1652095975913,
+            "created": 1647435365571,
+            "fileName": "New Document",
+            "contents": "",
+            "contentType": "yaml",
+            "_type": "api_spec"
+        },
+        {
+            "_id": "uts_1b0080c3eb5d49c4a151545b5df23c90",
+            "parentId": "wrk_75446acf89ae4010a65f63f5d22b1731",
+            "modified": 1647435365623,
+            "created": 1647435365623,
+            "name": "Example Test Suite",
+            "_type": "unit_test_suite"
+        },
+        {
+            "_id": "env_df12f88131a64523808c6c243139b659",
+            "parentId": "env_c9083e4a8a37baf21a895498d70d38b93b9048d1",
+            "modified": 1651939516933,
+            "created": 1651934413315,
+            "name": "Dev",
+            "data": { "url": "http://localhost:3001" },
+            "dataPropertyOrder": { "&": ["url"] },
+            "color": "#c328d7",
+            "isPrivate": false,
+            "metaSortKey": 1651934413315,
+            "_type": "environment"
+        }
+    ]
+}

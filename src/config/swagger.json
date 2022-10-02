@@ -21,7 +21,7 @@
             "LoginDTO": {
                 "type": "object",
                 "properties": {
-                    "coffito": {
+                    "crefito": {
                         "type": "string",
                         "pattern": "^example-[0-9]+$"
                     },
@@ -45,7 +45,7 @@
                         "properties": {
                             "id": { "type": "string" },
                             "name": { "type": "string" },
-                            "coffito": { "type": "string" }
+                            "crefito": { "type": "string" }
                         }
                     }
                 }
@@ -74,7 +74,7 @@
                                 "login": {
                                     "summary": "Exemplo de login",
                                     "value": {
-                                        "coffito": "112222",
+                                        "crefito": "112222",
                                         "password": "12kljj3hlk"
                                     }
                                 }
@@ -100,7 +100,7 @@
                                             "physiotherapist": {
                                                 "id": "jjjjj-3333-1111",
                                                 "name": "swagger",
-                                                "coffito": "2222111"
+                                                "crefito": "2222111"
                                             }
                                         }
                                     }

@@ -38,10 +38,10 @@ export default class PatientHistoryService {
         return this.toLocalDateString(data)
     }
 
-    async appendPatientMeasurements(patientId: string, score: number, coffito: string) {
+    async appendPatientMeasurements(patientId: string, score: number, crefito: string) {
         // some date
         log.info("Adding history")
 
-        await this.repository.addMeasurement(patientId, score, coffito)
+        await this.repository.addMeasurement(patientId, score, crefito)
     }
 }

@@ -7,16 +7,16 @@ import PatientHistoryService from "../patientHistory/patientHistoryServices"
 import PatientDataRepo from "../../repositories/patient/patientDataRepo"
 interface ISocketDTO {
     patientId: string
-    coffito: string
+    crefito: string
 }
 interface IPatientData {
     patientId: string
-    coffito: string
+    crefito: string
     score: number[]
 }
 export const patientData: IPatientData = {
     patientId: "",
-    coffito: "",
+    crefito: "",
     score: [],
 }
 const cleanUpPatientData = () => {
@@ -28,9 +28,9 @@ const cleanUpPatientData = () => {
 io.on("connection", (socket: Socket) => {
     log.debug(`Socket id ${socket.id}`)
 
-    socket.on("start", ({ patientId, coffito }: ISocketDTO) => {
+    socket.on("start", ({ patientId, crefito }: ISocketDTO) => {
         log.debug("start-measurement")
-        Object.assign(patientData, { patientId, coffito, score: [0] })
+        Object.assign(patientData, { patientId, crefito, score: [0] })
         emitSerial("start")
     })
 
@@ -47,10 +47,10 @@ io.on("connection", (socket: Socket) => {
 
     socket.on("save", async () => {
         try {
-            const { coffito, patientId, score } = patientData
+            const { crefito, patientId, score } = patientData
             const max = calcMax(score)
             const history = new PatientHistoryService(new PatientDataRepo())
-            await history.appendPatientMeasurements(patientId, max, coffito)
+            await history.appendPatientMeasurements(patientId, max, crefito)
             cleanUpPatientData()
         } catch (err) {
             socket.emit("error", { msg: "Erro ao salvar os dados!" })

@@ -17,7 +17,6 @@ model Patient {
   // relation
   measurements PatientData[]
 
-
   @@map("patients")
 }
 
@@ -27,12 +26,12 @@ model PatientData {
   score            Int
 
   //Pacient relation
-  patient    Patient? @relation(fields: [patient_id], references: [id])
+  patient    Patient? @relation(fields: [patient_id], references: [id], onDelete: Cascade)
   patient_id String?
 
   //Physiotherapist relation
-  physiotherapist Physiotherapist? @relation(fields: [physio_coffito], references: [coffito])
-  physio_coffito  String?
+  physiotherapist Physiotherapist? @relation(fields: [physio_crefito], references: [crefito], onDelete: SetNull)
+  physio_crefito  String?
 
   @@map("patientData")
 }
@@ -41,7 +40,7 @@ model Physiotherapist {
   id           String        @id @default(uuid())
   name         String
   password     String
-  coffito      String        @unique
+  crefito      String        @unique
   // relation
   measurements PatientData[]
 
