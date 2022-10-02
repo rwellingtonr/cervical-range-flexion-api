@@ -2,7 +2,9 @@ import PhysiotherapistRepo from "../../repositories/physiotherapistRepo/physioth
 import SingInController from "./signInController"
 import SignService from "./signInService"
 
-const service = new SignService(new PhysiotherapistRepo())
-const signController = new SingInController(service)
+const signController = () => {
+    const service = new SignService(new PhysiotherapistRepo())
+    return new SingInController(service)
+}
 
 export { signController }

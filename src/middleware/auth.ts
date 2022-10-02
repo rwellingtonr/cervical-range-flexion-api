@@ -16,9 +16,7 @@ const ensureAuthenticated = (req: Request, res: Response, next: NextFunction) =>
 
         const [, token] = authToken.split(" ")
 
-        const { sub } = verify(token, process.env.JWT_SECRET) as IPayload
-        req.physiotherapist_id = sub
-
+        verify(token, process.env.JWT_SECRET) as IPayload
         return next()
     } catch (err) {
         log.error(`Token inválido ${err}`)
