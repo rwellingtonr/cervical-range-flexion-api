@@ -15,16 +15,20 @@ export class Patient {
     private static hashCPF(cpf: string) {
         return handleEncrypt(cpf)
     }
+    private static cleanCPF(cpf: string) {
+        return cpf.replace(/[-._/]/g, "")
+    }
 
     static decryptCPF(hash: string) {
         return handleDecrypt(hash)
     }
 
     static create(patientInfo: Patient): Patient {
+        const cpfOnlyNumbers = this.cleanCPF(patientInfo.cpf)
         const patient = new Patient({
             ...patientInfo,
             name: patientInfo.name.toLowerCase(),
-            cpf: this.hashCPF(patientInfo.cpf),
+            cpf: this.hashCPF(cpfOnlyNumbers),
         })
         return patient
     }
