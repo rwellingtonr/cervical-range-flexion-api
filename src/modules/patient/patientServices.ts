@@ -9,7 +9,7 @@ export default class PatientServices {
     async create(patient: Patient) {
         log.info("Creating patient")
 
-        const isDuplicated = await this.patientRepo.exists(patient.name.toLowerCase())
+        const isDuplicated = await this.patientRepo.findOne(patient.cpf)
 
         if (isDuplicated) throw { message: "This patient already exists", httpCode: 409 }
 
