@@ -3,10 +3,11 @@ import log from "../../utils/loggers"
 import { SerialPort, ReadlineParser } from "serialport"
 import { io } from "../../app"
 import { patientData } from "./socket"
+import { rejects } from "assert"
 
 type EmitterStrings = "flexion" | "lateral" | "abort"
 
-const arduinoSerialPort = () => {
+export const arduinoSerialPort = () => {
     let serialPort: SerialPort
     let parser: ReadlineParser
 
@@ -39,31 +40,35 @@ const arduinoSerialPort = () => {
     }
     function emitter(payload: EmitterStrings) {
         return new Promise((resolve, reject) => {
-            serialPort.write(payload, "utf-8", (err: Error) => {
+            this.serialPort.write(payload, "utf-8", (err: Error) => {
                 if (err) return reject(err)
                 resolve(payload)
             })
         })
     }
+    function isConnected() {
+        try {
+            return serialPort.isOpen
+        } catch (err) {
+            log.error(err)
+            return false
+        }
+    }
 
     return {
         connect,
         emitter,
+        isConnected,
     }
 }
-const arduino = arduinoSerialPort()
-
-arduino.connect().catch((err) => log.error(err))
 
 async function handleEventData(event: string) {
-    log.debug(`handleEventData: ${event}`)
+    log.debug(event)
     if (/Received/.test(event)) return log.debug(event)
 
     switch (event.trim()) {
         case "tare": {
-            log.info("Chegou aqui!!")
             io.emit("tare")
-            await arduino.emitter("lateral")
             break
         }
         case "end":
@@ -79,7 +84,6 @@ async function handleEventData(event: string) {
 function handleReceivedValue(event: string) {
     const [, value] = event.split("Value: ")
     const score = Number(value)
-    log.debug(`Score: ${score}`)
     io.emit("measurement", { score })
     //patientData.score.push(score)
 }

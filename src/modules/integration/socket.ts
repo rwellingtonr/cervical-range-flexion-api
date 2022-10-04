@@ -1,11 +1,10 @@
 import log from "../../utils/loggers"
-import PatientDataRepo from "../../repositories/patient/patientDataRepo"
-import PatientHistoryService from "../patientHistory/patientHistoryServices"
 import { Socket } from "socket.io"
-import { connectSerial, emitSerial, isSerialPortOpen, startSerial } from "./serialPort"
+
 import { io } from "../../app"
 import { calcMax } from "../../utils/math"
 import type { Movement } from "../../entities/patientData"
+import { arduinoSerialPort } from "./serialPort"
 interface ISocketDTO {
     patientId: string
     crefito: string
@@ -26,24 +25,34 @@ const cleanUpPatientData = () => {
     }
 }
 
+const arduino = arduinoSerialPort()
+
 io.on("connection", (socket: Socket) => {
     log.debug(`Socket id ${socket.id}`)
-
     socket.on("start", ({ patientId, crefito, movement }: ISocketDTO) => {
         log.debug("start-measurement")
         Object.assign(patientData, { patientId, crefito, movement, score: [0] })
         emitSerial("start")
     })
 
-    socket.on("tare", () => {
-        log.debug("Tare")
-        const isOpen = isSerialPortOpen()
-        log.debug("aqui", isSerialPortOpen())
-        if (!isOpen) {
-            return socket.emit("message", {
-                status: "error",
-                msg: "Reconecte o arduino",
+    socket.on("status", () => {
+        const isOnline = arduino.isConnected()
+        const status = isOnline ? "loaded" : "disconnected"
+        socket.emit("status", { status })
+    })
+
+    socket.on("tare", async () => {
+        try {
+            log.debug("Socket Tare")
+            if (!arduino.isConnected()) {
+                await arduino.connect()
+            }
+            socket.emit("message", {
+                type: "info",
+                msg: "Arduino is online",
             })
+        } catch (err) {
+            log.error(err)
         }
     })
 
@@ -52,32 +61,21 @@ io.on("connection", (socket: Socket) => {
         emitSerial("abort")
     })
 
-    socket.on("save", async () => {
-        try {
-            const { crefito, patientId, score } = patientData
-            const max = calcMax(score)
-            const history = new PatientHistoryService(new PatientDataRepo())
-            await history.appendPatientMeasurements(patientId, max, crefito)
-            cleanUpPatientData()
-        } catch (err) {
-            socket.emit("message", { status: "error", msg: "Erro ao salvar os dados!" })
-            log.error(`Error to save data: ${err}`)
-        }
+    socket.on("end", async () => {
+        log.info("Clean Up")
+        cleanUpPatientData()
     })
 
     socket.on("reconnect-arduino", async () => {
-        await connectSerial()
-        const isOpen = await startSerial()
-        log.debug("Socket: reconnect-arduino:", isOpen)
-        if (!isOpen) {
-            socket.emit("message", {
-                status: "error",
-                msg: "Erro ao conectar ao arduino",
-            })
-            return
+        if (!arduino.isConnected()) {
+            await arduino.connect()
         }
-        socket.emit("message", { status: "info", msg: "Arduino está conectado" })
+        socket.emit("status", { status: "loaded" })
     })
 
     socket.on("disconnect", (reason) => log.warn("Socket: ", reason))
+
+    function socketMessage(msg: string, status: string) {
+        socket.emit("message", { status, msg })
+    }
 })
