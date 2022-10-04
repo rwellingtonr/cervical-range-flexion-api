@@ -5,6 +5,7 @@ export class Physiotherapist {
     name: string
     password: string
     crefito: string
+    isValid: boolean
 
     private constructor(props: Physiotherapist) {
         Object.assign(this, props)
@@ -12,9 +13,10 @@ export class Physiotherapist {
 
     static async create({ crefito, name, password }: Physiotherapist): Promise<Physiotherapist> {
         const hash = await hashPassword(password)
-        const content = {
+        const content: Physiotherapist = {
             name: name.toLowerCase(),
             password: hash,
+            isValid: true,
             crefito,
         }
         const physiotherapist = new Physiotherapist(content)

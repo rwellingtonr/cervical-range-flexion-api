@@ -1,22 +1,23 @@
+import log from "../../utils/loggers"
+import PatientDataRepo from "../../repositories/patient/patientDataRepo"
+import PatientHistoryService from "../patientHistory/patientHistoryServices"
 import { Socket } from "socket.io"
 import { connectSerial, emitSerial, isSerialPortOpen, startSerial } from "./serialPort"
 import { io } from "../../app"
-import log from "../../utils/loggers"
 import { calcMax } from "../../utils/math"
-import PatientHistoryService from "../patientHistory/patientHistoryServices"
-import PatientDataRepo from "../../repositories/patient/patientDataRepo"
+import type { Movement } from "../../entities/patientData"
 interface ISocketDTO {
     patientId: string
     crefito: string
+    movement: Movement
 }
-interface IPatientData {
-    patientId: string
-    crefito: string
+interface IPatientData extends ISocketDTO {
     score: number[]
 }
 export const patientData: IPatientData = {
     patientId: "",
     crefito: "",
+    movement: "flexion",
     score: [],
 }
 const cleanUpPatientData = () => {
@@ -28,9 +29,9 @@ const cleanUpPatientData = () => {
 io.on("connection", (socket: Socket) => {
     log.debug(`Socket id ${socket.id}`)
 
-    socket.on("start", ({ patientId, crefito }: ISocketDTO) => {
+    socket.on("start", ({ patientId, crefito, movement }: ISocketDTO) => {
         log.debug("start-measurement")
-        Object.assign(patientData, { patientId, crefito, score: [0] })
+        Object.assign(patientData, { patientId, crefito, movement, score: [0] })
         emitSerial("start")
     })
 
@@ -64,13 +65,18 @@ io.on("connection", (socket: Socket) => {
         }
     })
 
-    socket.on("reconect-arduino", async () => {
+    socket.on("reconnect-arduino", async () => {
         await connectSerial()
         const isOpen = await startSerial()
-        log.debug(isOpen)
+        log.debug("Socket: reconnect-arduino:", isOpen)
         if (!isOpen) {
-            return socket.emit("message", { status: "error", msg: "Erro ao conectar ao arduino" })
+            socket.emit("message", {
+                status: "error",
+                msg: "Erro ao conectar ao arduino",
+            })
+            return
         }
+        socket.emit("message", { status: "info", msg: "Arduino está conectado" })
     })
 
     socket.on("disconnect", (reason) => log.warn("Socket: ", reason))
