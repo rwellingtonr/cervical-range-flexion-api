@@ -9,7 +9,7 @@ datasource db {
 
 model Patient {
   id           String        @id @default(uuid())
-  name         String        @unique
+  name         String
   cpf          String        @unique
   gender       String
   birthday     DateTime
@@ -24,7 +24,7 @@ model PatientData {
   id               String   @id @default(uuid())
   measurement_date DateTime @default(now())
   score            Int
-  moviment         String
+  movement         String
 
   //Pacient relation
   patient    Patient? @relation(fields: [patient_id], references: [id], onDelete: Cascade)
