@@ -2,8 +2,7 @@ import PatientDataRepo from "../../repositories/patient/patientDataRepo"
 import PatientHistoryController from "./patientHistoryController"
 import PatientHistoryService from "./patientHistoryServices"
 
-const repository = new PatientDataRepo()
-const service = new PatientHistoryService(repository)
+const service = new PatientHistoryService(new PatientDataRepo())
 const controller = new PatientHistoryController(service)
 
 export { controller }

@@ -3,7 +3,7 @@ export type Movement = "flexion" | "lateral-let" | "lateral-right"
 export class PatientData {
     id?: string
     measurement_date?: Date
-    movement: Movement
+    movement: string
     score: number
     patient_id: string
     physio_crefito: string
