@@ -32,7 +32,10 @@ export const arduinoSerialPort = () => {
     function handleEvents() {
         serialPort.on("open", () => log.info("Serial port is running!"))
         serialPort.on("error", (err) => log.error(`Serial port error: ${err}`))
-        serialPort.on("close", () => log.warn("Closing Serial Port"))
+        serialPort.on("close", () => {
+            log.warn("Closing Serial Port")
+            io.emit("status", { status: "disconnected" })
+        })
     }
     function emitter(payload: EmitterStrings) {
         return new Promise((resolve, reject) => {
