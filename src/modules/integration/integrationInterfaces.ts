@@ -1,12 +1,8 @@
 import type { Movement } from "../../entities/patientData"
+import { IPatientEntryHistory } from "../../helpers/patientEntry"
 
-export type EmitterStrings = Movement | "abort"
+export type EmitterStrings = Movement | "abort" | "end"
 
-export interface ISocketDTO {
-    patientId: string
-    crefito: string
-    movement: Movement
-}
-export interface IPatientData extends ISocketDTO {
+export interface IPatientData extends IPatientEntryHistory {
     score: number[]
 }

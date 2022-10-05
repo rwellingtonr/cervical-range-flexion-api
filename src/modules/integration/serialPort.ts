@@ -59,8 +59,8 @@ export const arduinoSerialPort = () => {
 }
 
 function handleEventData(event: string) {
-    log.debug(event)
     if (/Received/.test(event)) return log.debug(event)
+    log.debug(event)
 
     switch (event.trim()) {
         case "tare": {
