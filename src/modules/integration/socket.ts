@@ -1,18 +1,9 @@
 import log from "../../utils/loggers"
 import { Socket } from "socket.io"
-
 import { io } from "../../app"
-import { calcMax } from "../../utils/math"
-import type { Movement } from "../../entities/patientData"
 import { arduinoSerialPort } from "./serialPort"
-interface ISocketDTO {
-    patientId: string
-    crefito: string
-    movement: Movement
-}
-interface IPatientData extends ISocketDTO {
-    score: number[]
-}
+import { IPatientData, ISocketDTO } from "./integrationInterfaces"
+
 export const patientData: IPatientData = {
     patientId: "",
     crefito: "",
@@ -28,11 +19,27 @@ const cleanUpPatientData = () => {
 const arduino = arduinoSerialPort()
 
 io.on("connection", (socket: Socket) => {
-    log.debug(`Socket id ${socket.id}`)
-    socket.on("start", ({ patientId, crefito, movement }: ISocketDTO) => {
-        log.debug("start-measurement")
-        Object.assign(patientData, { patientId, crefito, movement, score: [0] })
-        emitSerial("start")
+    log.info(`Socket id: ${socket.id}`)
+
+    socket.on("connect-arduino", async () => {
+        try {
+            if (!arduino.isConnected()) await arduino.connect()
+            socket.emit("status", { status: "loaded" })
+        } catch (err) {
+            log.error(err)
+            socketMessage("Erro ao conectar", "error")
+        }
+    })
+
+    socket.on("start", async ({ patientId, crefito, movement }: ISocketDTO) => {
+        try {
+            log.debug("start-measurement")
+            Object.assign(patientData, { patientId, crefito, movement, score: [0] })
+            await arduino.emitter(movement)
+        } catch (err) {
+            log.error(err)
+            socketMessage("Erro ao iniciar as medições!", "error")
+        }
     })
 
     socket.on("status", () => {
@@ -41,39 +48,22 @@ io.on("connection", (socket: Socket) => {
         socket.emit("status", { status })
     })
 
-    socket.on("tare", async () => {
+    socket.on("abort", async () => {
         try {
-            log.debug("Socket Tare")
-            if (!arduino.isConnected()) {
-                await arduino.connect()
-            }
-            socket.emit("message", {
-                type: "info",
-                msg: "Arduino is online",
-            })
+            log.debug("Aborting process")
+            await arduino.emitter("abort")
         } catch (err) {
             log.error(err)
+            socketMessage("Erro ao abortar as medições!", "error")
         }
     })
 
-    socket.on("abort", () => {
-        log.debug("Aborting process")
-        emitSerial("abort")
-    })
-
-    socket.on("end", async () => {
+    socket.on("end", () => {
         log.info("Clean Up")
         cleanUpPatientData()
     })
 
-    socket.on("reconnect-arduino", async () => {
-        if (!arduino.isConnected()) {
-            await arduino.connect()
-        }
-        socket.emit("status", { status: "loaded" })
-    })
-
-    socket.on("disconnect", (reason) => log.warn("Socket: ", reason))
+    socket.on("disconnect", (reason) => log.warn(`Socket: ${reason}`))
 
     function socketMessage(msg: string, status: string) {
         socket.emit("message", { status, msg })

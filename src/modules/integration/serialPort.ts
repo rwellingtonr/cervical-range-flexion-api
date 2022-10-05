@@ -1,11 +1,7 @@
-import "dotenv/config"
 import log from "../../utils/loggers"
 import { SerialPort, ReadlineParser } from "serialport"
 import { io } from "../../app"
-import { patientData } from "./socket"
-import { rejects } from "assert"
-
-type EmitterStrings = "flexion" | "lateral" | "abort"
+import type { EmitterStrings } from "./integrationInterfaces"
 
 export const arduinoSerialPort = () => {
     let serialPort: SerialPort
@@ -62,7 +58,7 @@ export const arduinoSerialPort = () => {
     }
 }
 
-async function handleEventData(event: string) {
+function handleEventData(event: string) {
     log.debug(event)
     if (/Received/.test(event)) return log.debug(event)
 
