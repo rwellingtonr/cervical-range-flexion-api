@@ -1,4 +1,6 @@
-# servical-range-flexion-api
+# Servical Range Flexion API
+
+[![GitHub](https://img.shields.io/github/license/rwellingtonr/cervical-range-flexion-api?color=blue)](https://github.com/rwellingtonr/cervical-range-flexion-api/blob/master/LICENSE.md) ![GitHub last commit](https://img.shields.io/github/last-commit/rwellingtonr/cervical-range-flexion-api) ![GitHub repo size](https://img.shields.io/github/repo-size/rwellingtonr/cervical-range-flexion-api) ![GitHub top language](https://img.shields.io/github/languages/top/rwellingtonr/cervical-range-flexion-api)
 
 ## Como Executar
 
