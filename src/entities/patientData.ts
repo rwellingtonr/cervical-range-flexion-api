@@ -1,4 +1,4 @@
-export type Movement = "flexion" | "lateral-let" | "lateral-right"
+export type Movement = "flexion" | "lateral-left" | "lateral-right"
 
 export class PatientData {
     id?: string
