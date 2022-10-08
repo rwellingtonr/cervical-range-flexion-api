@@ -40,8 +40,10 @@ io.on("connection", (socket: Socket) => {
     socket.on("end-process", async () => {
         try {
             log.debug("Socket: Ending Process")
-            patientEntry.cleanUp()
+            const measurementResult = patientEntry.getResult()
+            socket.emit("result", measurementResult)
             await arduino.emitter("end")
+            patientEntry.cleanUp()
         } catch (err) {
             log.error("Socket:", err)
             socketMessage("Erro ao abortar as medições!", "error")
