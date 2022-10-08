@@ -9,7 +9,7 @@ datasource db {
 
 model Patient {
   id           String        @id @default(uuid())
-  name         String        @unique
+  name         String
   cpf          String        @unique
   gender       String
   birthday     DateTime
@@ -24,13 +24,14 @@ model PatientData {
   id               String   @id @default(uuid())
   measurement_date DateTime @default(now())
   score            Int
+  movement         String
 
   //Pacient relation
   patient    Patient? @relation(fields: [patient_id], references: [id], onDelete: Cascade)
   patient_id String?
 
   //Physiotherapist relation
-  physiotherapist Physiotherapist? @relation(fields: [physio_crefito], references: [crefito], onDelete: SetNull)
+  physiotherapist Physiotherapist? @relation(fields: [physio_crefito], references: [crefito])
   physio_crefito  String?
 
   @@map("patientData")
@@ -41,6 +42,7 @@ model Physiotherapist {
   name         String
   password     String
   crefito      String        @unique
+  isValid      Boolean       @default(true)
   // relation
   measurements PatientData[]
 

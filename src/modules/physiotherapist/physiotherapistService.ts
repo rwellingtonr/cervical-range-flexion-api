@@ -17,20 +17,13 @@ export default class PhysiotherapistService {
         await this.physiotherapistRepo.create(user)
     }
     async findAllPhysiotherapists() {
-        log.info("looking for all profissional")
-
-        const physiotherapists = await this.physiotherapistRepo.findAll()
-
-        return physiotherapists
+        return await this.physiotherapistRepo.findAll()
     }
 
     async findProfessional(id: string) {
-        log.info(`Searching for physiotherapist ${id} `)
-        if (!id) throw { httpCode: 404, message: "Could't find this one" }
-
         const physiotherapist = await this.physiotherapistRepo.findById(id)
 
-        if (!physiotherapist) throw new Error("Could not find this professional")
+        if (!physiotherapist) throw { httpCode: 404, message: "Could not find this professional" }
 
         return physiotherapist
     }

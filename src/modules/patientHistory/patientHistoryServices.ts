@@ -1,12 +1,12 @@
 import { PatientData } from "../../entities/patientData"
-import PatientDataRepo from "../../repositories/patient/patientDataRepo"
+import { IPatientDataRepo } from "../../repositories/repositoriesInterface"
 import log from "../../utils/loggers"
-
+import { ICreateEntryDTO } from "./patientHistoryDTO"
 export default class PatientHistoryService {
     private fistDay: Date
     private lastDay: Date
 
-    constructor(private readonly repository: PatientDataRepo) {}
+    constructor(private readonly repository: IPatientDataRepo) {}
 
     private setDate(firstDate: string, lastDate: string) {
         if (!firstDate) {
@@ -38,10 +38,15 @@ export default class PatientHistoryService {
         return this.toLocalDateString(data)
     }
 
-    async appendPatientMeasurements(patientId: string, score: number, crefito: string) {
-        // some date
+    async appendPatientMeasurements({ movement, patientId, crefito, maxScore }: ICreateEntryDTO) {
         log.info("Adding history")
 
-        await this.repository.addMeasurement(patientId, score, crefito)
+        const patientData = new PatientData({
+            movement,
+            score: maxScore,
+            physio_crefito: crefito,
+            patient_id: patientId,
+        })
+        await this.repository.addMeasurement(patientData)
     }
 }

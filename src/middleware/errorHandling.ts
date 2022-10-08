@@ -1,3 +1,4 @@
+import "express-async-errors"
 import { Request, Response, NextFunction } from "express"
 import log from "../utils/loggers"
 

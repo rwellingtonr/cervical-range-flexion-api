@@ -1,66 +1,69 @@
-import "dotenv/config"
 import log from "../../utils/loggers"
 import { SerialPort, ReadlineParser } from "serialport"
 import { io } from "../../app"
-import { errorCb } from "../../utils/errorCb"
-import { patientData } from "./socket"
+import type { EmitterStrings } from "./integrationInterfaces"
 
-type EmitterStrings = "start" | "abort"
+export const arduinoSerialPort = () => {
+    let serialPort: SerialPort
+    let parser: ReadlineParser
 
-const config = {
-    path: process.env.ARDUINO_PORT,
-    baudRate: 9600,
-    autoOpen: false,
-}
+    async function connect() {
+        log.info("Connecting to arduino")
+        const ports = await SerialPort.list()
+        const arduino = ports.find((port) => port.manufacturer)
+        if (arduino) {
+            log.debug("Arduino:", arduino)
+            serialPort = new SerialPort({
+                path: arduino.path,
+                baudRate: 9600,
+                autoOpen: true,
+            })
+            setParser()
+            return handleEvents()
+        }
+        throw new Error("Arduino is not connected!")
+    }
+    function setParser() {
+        log.info("Staring parser!")
+        parser = serialPort.pipe(new ReadlineParser({ encoding: "utf-8" }))
+        parser.on("data", handleEventData)
+    }
 
-let serialPort = new SerialPort(config)
-
-connectSerial().catch((err) => log.error(err))
-
-export async function connectSerial() {
-    log.info("Connecting to arduino")
-    const ports = await SerialPort.list()
-    const arduino = ports.find((port) => port.manufacturer)
-    if (arduino) {
-        log.debug("Arduino:", arduino)
-        serialPort = new SerialPort({
-            ...config,
-            path: arduino.path,
+    function handleEvents() {
+        serialPort.on("open", () => log.info("Serial port is running!"))
+        serialPort.on("error", (err) => log.error(`Serial port error: ${err}`))
+        serialPort.on("close", () => {
+            log.warn("Closing Serial Port")
+            io.emit("status", { status: "disconnected" })
         })
-        await startSerial()
+    }
+    function emitter(payload: EmitterStrings) {
+        return new Promise((resolve, reject) => {
+            this.serialPort.write(payload, "utf-8", (err: Error) => {
+                if (err) return reject(err)
+                resolve(payload)
+            })
+        })
+    }
+    function isConnected() {
+        try {
+            return serialPort.isOpen
+        } catch (err) {
+            log.error(err)
+            return false
+        }
+    }
+
+    return {
+        connect,
+        emitter,
+        isConnected,
     }
 }
 
-const parser = serialPort.pipe(new ReadlineParser({ encoding: "utf-8" }))
-
-function startSerialPort() {
-    return new Promise((resolve, reject) => {
-        serialPort.open((err) => {
-            if (err) return reject(err)
-            return resolve("OK")
-        })
-    })
-}
-
-export const startSerial = async () => {
-    try {
-        await startSerialPort()
-        log.info(`Is serial port open? ${serialPort.isOpen}`)
-        return serialPort.isOpen
-    } catch (err) {
-        log.error(err)
-        return false
-    }
-}
-export const isSerialPortOpen = () => serialPort.isOpen
-
-export const emitSerial = (payload: EmitterStrings) => {
-    return serialPort.write(payload, errorCb)
-}
-
-const handleEvent = (event: string) => {
-    log.debug(event)
+function handleEventData(event: string) {
     if (/Received/.test(event)) return log.debug(event)
+    log.debug(event)
 
     switch (event.trim()) {
         case "tare": {
@@ -77,15 +80,9 @@ const handleEvent = (event: string) => {
     }
 }
 
-const handleReceivedValue = (event: string) => {
+function handleReceivedValue(event: string) {
     const [, value] = event.split("Value: ")
-    log.debug(value)
     const score = Number(value)
     io.emit("measurement", { score })
-    patientData.score.push(score)
+    //patientData.score.push(score)
 }
-
-parser.on("data", handleEvent)
-serialPort.on("open", () => log.info("Serial port is running!"))
-serialPort.on("error", (err) => log.error(`Serial port error: ${err}`))
-serialPort.on("close", () => log.warn("Closing Serial Port"))

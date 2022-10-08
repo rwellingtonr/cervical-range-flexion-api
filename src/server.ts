@@ -1,5 +1,4 @@
 import "./modules/integration/socket"
-import "./modules/integration/serialPort"
 import log from "./utils/loggers"
 import { serverHttp } from "./app"
 

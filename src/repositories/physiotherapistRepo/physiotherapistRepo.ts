@@ -40,8 +40,10 @@ export default class PhysiotherapistRepo implements IPhysiotherapistRepo {
             where: { id },
         })
     }
-    async delete(id: string): Promise<boolean> {
-        const deleted = await prisma.physiotherapist.delete({ where: { id } })
-        return !!deleted
+    async delete(id: string): Promise<void> {
+        await prisma.physiotherapist.update({
+            where: { id },
+            data: { isValid: false },
+        })
     }
 }

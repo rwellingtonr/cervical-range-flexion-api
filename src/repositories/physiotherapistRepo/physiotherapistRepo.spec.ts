@@ -1,6 +1,7 @@
 import PhysiotherapistRepo from "./physiotherapistRepo"
 import { Physiotherapist } from "../../entities/physiotherapist"
 import { randomUUID } from "crypto"
+import { prisma } from "../../database"
 
 describe("Test the Physiotherapist repository", () => {
     let repo: PhysiotherapistRepo
@@ -9,13 +10,14 @@ describe("Test the Physiotherapist repository", () => {
         repo = new PhysiotherapistRepo()
     })
     afterEach(async () => {
-        if (id) await repo.delete(id)
+        if (id) await prisma.physiotherapist.delete({ where: { id } })
     })
 
     it("should create a physiotherapist", async () => {
         const physiotherapist: Physiotherapist = {
             crefito: randomUUID(),
             name: "jest name",
+            isValid: true,
             password: "any one",
         }
         const result = await repo.create(physiotherapist)
@@ -27,6 +29,7 @@ describe("Test the Physiotherapist repository", () => {
         const physiotherapist: Physiotherapist = {
             crefito: randomUUID(),
             name: "jest name",
+            isValid: true,
             password: "any one",
         }
         const created = await repo.create(physiotherapist)
@@ -40,6 +43,7 @@ describe("Test the Physiotherapist repository", () => {
         const physiotherapist: Physiotherapist = {
             crefito: randomUUID(),
             name: "jest name",
+            isValid: true,
             password: "any one",
         }
         const created = await repo.create(physiotherapist)
@@ -52,6 +56,7 @@ describe("Test the Physiotherapist repository", () => {
         const physiotherapist: Physiotherapist = {
             crefito: randomUUID(),
             name: "jest name",
+            isValid: true,
             password: "any one",
         }
         const created = await repo.create(physiotherapist)

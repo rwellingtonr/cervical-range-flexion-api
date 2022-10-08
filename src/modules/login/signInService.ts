@@ -10,9 +10,12 @@ export default class SignService {
         const professionalInfo = await this.physiotherapistRepo.findOne(crefito)
         if (!professionalInfo) throw { httpCode: 404, message: "User does not exist" }
 
-        const isValid = await comparePassword(password, professionalInfo.password)
+        if (!professionalInfo.isValid) {
+            throw { httpCode: 401, message: "User does not have access to the site" }
+        }
 
-        if (!isValid) throw new Error("Invalid password")
+        const isValid = await comparePassword(password, professionalInfo.password)
+        if (!isValid) throw { httpCode: 401, message: "Invalid password" }
 
         const physiotherapist = {
             crefito,

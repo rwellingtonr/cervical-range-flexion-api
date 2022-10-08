@@ -1,5 +1,6 @@
 import { Request, Response } from "express"
 import log from "../../utils/loggers"
+import { ICreateEntryDTO } from "./patientHistoryDTO"
 import PatientHistoryService from "./patientHistoryServices"
 
 export default class PatientHistoryController {
@@ -22,8 +23,8 @@ export default class PatientHistoryController {
 
     async addMeasurement(req: Request, res: Response) {
         try {
-            const { patientId, score, crefito } = req.body
-            await this.service.appendPatientMeasurements(patientId, score, crefito)
+            const { patientId, maxScore, movement, crefito }: ICreateEntryDTO = req.body
+            await this.service.appendPatientMeasurements({ patientId, maxScore, movement, crefito })
             return res.sendStatus(201)
         } catch (error) {
             log.error(error.message)
