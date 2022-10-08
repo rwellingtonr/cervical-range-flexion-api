@@ -66,24 +66,17 @@ function handleEventData(event: string) {
     if (/Received/.test(event)) return log.debug(event)
     log.debug(event)
 
-    switch (event.trim()) {
-        case "tare": {
-            io.emit("tare")
-            break
-        }
-        case "end":
-            log.info("Coleta finalizada!")
-            io.emit("end")
-            break
-        default:
-            handleReceivedValue(event)
-            break
+    if (event === "tare") {
+        io.emit("tare")
+        return
     }
+
+    handleReceivedValue(event)
 }
 
 function handleReceivedValue(event: string) {
     const [, value] = event.split("Value: ")
     const score = Number(value)
-    io.emit("measurement", { score })
+    io.emit("measurement", { score: Math.abs(score) })
     //patientData.score.push(score)
 }
