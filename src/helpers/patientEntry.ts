@@ -15,16 +15,18 @@ function patientEntry() {
         score: [],
     }
 
-    const initialSet = ({ patientId, movement, crefito }: IPatientEntryHistory) => {
+    const initialSet = ({ patientId, movement, crefito }: IPatientEntryHistory): void => {
         Object.assign(patientData, { patientId, crefito, movement })
     }
 
-    const initialScore = (score: number) => {
-        patientData.score.push(score)
-    }
-
-    const setScore = (value: number) => {
-        patientData.score.push(value)
+    const setScore = (value: number): void => {
+        const { score } = patientData
+        if (score.length) {
+            const dif = value - score[0]
+            score.push(dif)
+            return
+        }
+        score.push(value)
     }
 
     const cleanUp = () => {
@@ -33,11 +35,18 @@ function patientEntry() {
         }
     }
 
+    const getResult = () => {
+        /* Comparar com um padrão pre definido de normalidade
+         */
+        const maxScore = Math.max(...patientData.score)
+        return { ...patientData, maxScore }
+    }
+
     return {
         cleanUp,
         initialSet,
-        initialScore,
         setScore,
+        getResult,
     }
 }
 export default patientEntry()
