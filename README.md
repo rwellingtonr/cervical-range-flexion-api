@@ -6,10 +6,10 @@
 
 ```bash
 # clone o repositório
-git clone
+git clone https://github.com/rwellingtonr/cervical-range-flexion-api.git
 
 ## Instalação de Dependências
-cd ... && cp .env.example .env && yarn
+cd cervical-range-flexion-api && cp .env.example .env && yarn
 
 ## Rodar testes (opcional)
 yarn test
