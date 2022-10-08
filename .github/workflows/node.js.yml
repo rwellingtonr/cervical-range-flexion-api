@@ -21,7 +21,7 @@ jobs:
         
     environment: secrets
     env:
-      PORT: $PORT
+      PORT: 3000
       JWT_SECRET: $JWT_SECRET
       CRYPTOGRAPHY_PAYLOAD: $CRYPTOGRAPHY_PAYLOAD
       ARDUINO_PORT: $ARDUINO_PORT
@@ -29,9 +29,13 @@ jobs:
     - uses: actions/checkout@v3
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
+      
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'yarn'
+    - run: |
+        echo "Starting test on port $PORT..."
+        echo "Arduino ${{ secrets.ARDUINO_PORT }}"
     - run: yarn --frozen-lockfile
     - run: yarn build
     - run: yarn test
