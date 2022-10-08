@@ -2,6 +2,7 @@ import log from "../../utils/loggers"
 import { SerialPort, ReadlineParser } from "serialport"
 import { io } from "../../app"
 import type { EmitterStrings } from "./integrationInterfaces"
+import patientEntry from "../../helpers/patientEntry"
 
 export const arduinoSerialPort = () => {
     let serialPort: SerialPort
@@ -33,8 +34,8 @@ export const arduinoSerialPort = () => {
         serialPort.on("open", () => log.info("Serial port is running!"))
         serialPort.on("error", (err) => log.error(`Serial port error: ${err}`))
         serialPort.on("close", () => {
-            log.warn("Closing Serial Port")
             io.emit("status", { status: "disconnected" })
+            log.warn("Closing Serial Port")
         })
     }
     function emitter(payload: EmitterStrings) {
@@ -50,7 +51,7 @@ export const arduinoSerialPort = () => {
         try {
             return serialPort.isOpen
         } catch (err) {
-            log.error(err)
+            log.error(err.message)
             return false
         }
     }
@@ -66,17 +67,16 @@ function handleEventData(event: string) {
     if (/Received/.test(event)) return log.debug(event)
     log.debug(event)
 
-    if (event === "tare") {
-        io.emit("tare")
-        return
-    }
+    event = event.trim()
+    if (event === "tare") return io.emit("tare")
 
     handleReceivedValue(event)
 }
 
 function handleReceivedValue(event: string) {
     const [, value] = event.split("Value: ")
-    const score = Number(value)
-    io.emit("measurement", { score: Math.abs(score) })
-    //patientData.score.push(score)
+    const score = Math.abs(+value)
+
+    io.emit("measurement", { score })
+    patientEntry.setScore(score)
 }

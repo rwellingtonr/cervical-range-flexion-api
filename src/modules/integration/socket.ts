@@ -41,8 +41,10 @@ io.on("connection", (socket: Socket) => {
         try {
             log.debug("Socket: Ending Process")
             const measurementResult = patientEntry.getResult()
-            socket.emit("result", measurementResult)
             await arduino.emitter("end")
+            setTimeout(() => {
+                socket.emit("result", measurementResult)
+            }, 1500)
             patientEntry.cleanUp()
         } catch (err) {
             log.error("Socket:", err)

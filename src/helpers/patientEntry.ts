@@ -16,7 +16,7 @@ function patientEntry() {
     }
 
     const initialSet = ({ patientId, movement, crefito }: IPatientEntryHistory): void => {
-        Object.assign(patientData, { patientId, crefito, movement })
+        Object.assign(patientData, { patientId, crefito, movement, score: [] })
     }
 
     const setScore = (value: number): void => {
