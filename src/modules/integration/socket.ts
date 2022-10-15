@@ -1,6 +1,6 @@
 import log from "@utils/loggers"
 import { Socket } from "socket.io"
-import { io } from "@app"
+import { io } from "@app/index"
 import { arduinoSerialPort } from "./serialPort"
 import patientEntry, { IPatientEntryHistory } from "@helpers/patientEntry"
 

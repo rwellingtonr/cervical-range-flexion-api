@@ -2,6 +2,7 @@ import { PatientData } from "@entities/patientData"
 import { IPatientDataRepo } from "@repositories/repositoriesInterface"
 import log from "@utils/loggers"
 import { ICreateEntryDTO } from "./patientHistoryDTO"
+import { IRetrievePatientHistory } from "./patientHistoryInterface"
 export default class PatientHistoryService {
     private fistDay: Date
     private lastDay: Date
@@ -29,12 +30,18 @@ export default class PatientHistoryService {
         }))
     }
 
-    async getPatientHistory(patientId: string, firstDate: string, lastDate: string) {
+    async getPatientHistory({ patientId, firstDate, lastDate, movement }: IRetrievePatientHistory) {
         log.info("Getting patient history")
 
         this.setDate(firstDate, lastDate)
+        const movementToFilter = movement ? movement : "flexion"
 
-        const data = await this.repository.history(patientId, this.fistDay, this.lastDay)
+        const data = await this.repository.history(
+            patientId,
+            this.fistDay,
+            this.lastDay,
+            movementToFilter
+        )
         return this.toLocalDateString(data)
     }
 
