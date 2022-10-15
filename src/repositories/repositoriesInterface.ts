@@ -1,4 +1,5 @@
 import { type Movement, PatientData } from "@entities/patientData"
+import { IPatientHistorySimplified } from "@modules/patientHistory/patientHistoryInterface"
 
 export interface ICRUDRepo<T> {
     create(data: T): Promise<T>
@@ -15,6 +16,6 @@ export interface IPatientDataRepo {
         firstDate: Date,
         lastDate: Date,
         movement: Movement
-    ): Promise<PatientData[]>
+    ): Promise<IPatientHistorySimplified[]>
     addMeasurement(patientData: PatientData): Promise<PatientData>
 }

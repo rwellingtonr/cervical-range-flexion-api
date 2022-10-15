@@ -12,8 +12,15 @@ export default class PatientDataRepo implements IPatientDataRepo {
             orderBy: {
                 measurement_date: "asc",
             },
-            include: {
-                patient: true,
+            select: {
+                measurement_date: true,
+                movement: true,
+                score: true,
+                patient: {
+                    select: {
+                        name: true,
+                    },
+                },
             },
         })
 
