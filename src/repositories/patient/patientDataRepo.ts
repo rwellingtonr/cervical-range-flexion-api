@@ -1,5 +1,5 @@
-import { prisma } from "../../database"
-import { PatientData } from "../../entities/patientData"
+import { prisma } from "@database/index"
+import { PatientData } from "@entities/patientData"
 import { IPatientDataRepo } from "../repositoriesInterface"
 export default class PatientDataRepo implements IPatientDataRepo {
     async history(patientId: string, firstDate: Date, lastDate: Date) {

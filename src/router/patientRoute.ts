@@ -1,6 +1,6 @@
 import { Router } from "express"
-import { ensureAuthenticated } from "../middleware/auth"
-import patientFactory from "../modules/patient/patientModule"
+import { ensureAuthenticated } from "@middleware/auth"
+import patientFactory from "@modules/patient/patientModule"
 
 const router = Router()
 const patientRouter = Router()

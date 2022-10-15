@@ -1,5 +1,5 @@
 import { Request, Response } from "express"
-import PatientDataRepo from "../../repositories/patient/patientDataRepo"
+import PatientDataRepo from "@repositories/patient/patientDataRepo"
 import PatientHistoryController from "./patientHistoryController"
 import PatientHistoryService from "./patientHistoryServices"
 

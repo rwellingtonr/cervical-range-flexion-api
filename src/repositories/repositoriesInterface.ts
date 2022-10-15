@@ -1,4 +1,4 @@
-import { PatientData } from "../entities/patientData"
+import { PatientData } from "@entities/patientData"
 
 export interface ICRUDRepo<T> {
     create(data: T): Promise<T>

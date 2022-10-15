@@ -1,5 +1,5 @@
 import { Request, Response } from "express"
-import log from "../../utils/loggers"
+import log from "@utils/loggers"
 import { ICreateEntryDTO } from "./patientHistoryDTO"
 import PatientHistoryService from "./patientHistoryServices"
 
@@ -11,6 +11,7 @@ export default class PatientHistoryController {
 
             const firstDate = req.query["firstDate"] as string
             const lastDate = req.query["lastDate"] as string
+            const movement = req.query["movement"] as string
 
             const histories = await this.service.getPatientHistory(patientId, firstDate, lastDate)
 

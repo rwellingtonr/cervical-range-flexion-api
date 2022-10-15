@@ -1,6 +1,6 @@
-import { PatientData } from "../../entities/patientData"
-import { IPatientDataRepo } from "../../repositories/repositoriesInterface"
-import log from "../../utils/loggers"
+import { PatientData } from "@entities/patientData"
+import { IPatientDataRepo } from "@repositories/repositoriesInterface"
+import log from "@utils/loggers"
 import { ICreateEntryDTO } from "./patientHistoryDTO"
 export default class PatientHistoryService {
     private fistDay: Date

@@ -1,6 +1,6 @@
-import { io, serverHttp } from "../app"
-import { prisma } from "../database"
-import log from "../utils/loggers"
+import { io, serverHttp } from "@app/index"
+import { prisma } from "@database/index"
+import log from "@utils/loggers"
 
 const gracefulShutDown = (event: string) => {
     return serverHttp.close(() => {

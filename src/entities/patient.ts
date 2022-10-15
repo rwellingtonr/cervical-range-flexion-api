@@ -1,4 +1,4 @@
-import { handleDecrypt, handleEncrypt } from "../utils/encrypt"
+import { handleDecrypt, handleEncrypt } from "@utils/encrypt"
 
 export class Patient {
     id?: string

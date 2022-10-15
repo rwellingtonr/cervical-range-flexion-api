@@ -1,5 +1,5 @@
 import { Request, Response } from "express"
-import PhysiotherapistRepo from "../../repositories/physiotherapistRepo/physiotherapistRepo"
+import PhysiotherapistRepo from "@repositories/physiotherapistRepo/physiotherapistRepo"
 import SingInController from "./signInController"
 import SignService from "./signInService"
 

@@ -1,6 +1,6 @@
 import { Request, Response } from "express"
-import { Patient } from "../../entities/patient"
-import log from "../../utils/loggers"
+import { Patient } from "@entities/patient"
+import log from "@utils/loggers"
 import PatientServices from "./patientServices"
 
 export default class PatientController {

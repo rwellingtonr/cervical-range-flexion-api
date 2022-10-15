@@ -1,8 +1,8 @@
-import log from "../../utils/loggers"
+import log from "@utils/loggers"
 import { SerialPort, ReadlineParser } from "serialport"
-import { io } from "../../app"
+import { io } from "@app/index"
 import type { EmitterStrings } from "./integrationInterfaces"
-import patientEntry from "../../helpers/patientEntry"
+import patientEntry from "@helpers/patientEntry"
 
 export const arduinoSerialPort = () => {
     let serialPort: SerialPort

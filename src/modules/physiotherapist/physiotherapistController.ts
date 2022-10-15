@@ -1,7 +1,7 @@
 import { Request, Response } from "express"
 import PhysiotherapistService from "./physiotherapistService"
-import log from "../../utils/loggers"
-import { Physiotherapist } from "../../entities/physiotherapist"
+import log from "@utils/loggers"
+import { Physiotherapist } from "@entities/physiotherapist"
 
 export default class PhysiotherapistController {
     constructor(private readonly service: PhysiotherapistService) {}

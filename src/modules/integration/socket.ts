@@ -1,8 +1,8 @@
-import log from "../../utils/loggers"
+import log from "@utils/loggers"
 import { Socket } from "socket.io"
-import { io } from "../../app"
+import { io } from "@app"
 import { arduinoSerialPort } from "./serialPort"
-import patientEntry, { IPatientEntryHistory } from "../../helpers/patientEntry"
+import patientEntry, { IPatientEntryHistory } from "@helpers/patientEntry"
 
 const arduino = arduinoSerialPort()
 

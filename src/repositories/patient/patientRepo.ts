@@ -1,6 +1,6 @@
-import { Patient } from "../../entities/patient"
+import { Patient } from "@entities/patient"
 import { ICRUDRepo } from "../repositoriesInterface"
-import { prisma } from "../../database"
+import { prisma } from "@database/index"
 
 export default class PatientRepo implements ICRUDRepo<Patient> {
     async create(patient: Patient): Promise<Patient> {

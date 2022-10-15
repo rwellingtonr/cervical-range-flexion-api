@@ -1,6 +1,6 @@
-import PhysiotherapistRepo from "../../repositories/physiotherapistRepo/physiotherapistRepo"
-import log from "../../utils/loggers"
-import { comparePassword } from "../../utils/bcrypt"
+import PhysiotherapistRepo from "@repositories/physiotherapistRepo/physiotherapistRepo"
+import log from "@utils/loggers"
+import { comparePassword } from "@utils/bcrypt"
 import { sign } from "jsonwebtoken"
 
 export default class SignService {

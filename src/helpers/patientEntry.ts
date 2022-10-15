@@ -1,4 +1,4 @@
-import type { Movement } from "../entities/patientData"
+import type { Movement } from "@entities/patientData"
 
 export interface IPatientEntryHistory {
     patientId: string

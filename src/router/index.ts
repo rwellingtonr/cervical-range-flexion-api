@@ -1,6 +1,6 @@
 import { Router } from "express"
 import fs from "fs/promises"
-import logger from "../utils/loggers"
+import logger from "@utils/loggers"
 
 const router = Router()
 

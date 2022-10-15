@@ -1,6 +1,6 @@
 /* What this Controller does... */
 import { Request, Response } from "express"
-import log from "../../utils/loggers"
+import log from "@utils/loggers"
 import SignService from "./signInService"
 
 export default class SingInController {

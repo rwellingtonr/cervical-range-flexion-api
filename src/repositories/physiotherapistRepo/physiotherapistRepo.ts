@@ -1,6 +1,6 @@
 import { ICRUDRepo } from "../repositoriesInterface"
-import { prisma } from "../../database"
-import { Physiotherapist } from "../../entities/physiotherapist"
+import { prisma } from "@database/index"
+import { Physiotherapist } from "@entities/physiotherapist"
 
 interface IPhysiotherapistRepo extends ICRUDRepo<Physiotherapist> {
     findByCrefito(crefito: string): Promise<Physiotherapist>

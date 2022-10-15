@@ -4,8 +4,8 @@ import express from "express"
 import cors from "cors"
 import morgan from "morgan"
 import { createServer } from "http"
-import { errorHandling } from "../middleware/errorHandling"
-import { router } from "../router"
+import { errorHandling } from "@middleware/errorHandling"
+import { router } from "@router/index"
 import { Server } from "socket.io"
 
 const app = express()

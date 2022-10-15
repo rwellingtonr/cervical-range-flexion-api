@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express"
 import { verify } from "jsonwebtoken"
-import log from "../utils/loggers"
+import log from "@utils/loggers"
 
 export const ensureAuthenticated = (req: Request, res: Response, next: NextFunction) => {
     try {
