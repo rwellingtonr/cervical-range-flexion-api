@@ -1,13 +1,13 @@
+import arduinoSerialPort from "./serialPort"
 import log from "@utils/loggers"
 import { Socket } from "socket.io"
 import { io } from "@app/index"
-import arduinoSerialPort from "./serialPort"
 import patientEntry, { IPatientEntryHistory } from "@helpers/patientEntry"
 
 io.on("connection", (socket: Socket) => {
     log.info(`Socket id: ${socket.id}`)
 
-    socket.on("connect-arduinoSerialPort", async () => {
+    socket.on("connect-arduino", async () => {
         try {
             log.debug("Socket: Connecting")
             await arduinoSerialPort.connect()
@@ -38,8 +38,8 @@ io.on("connection", (socket: Socket) => {
     socket.on("end-process", async () => {
         try {
             log.debug("Socket: Ending Process")
-            const measurementResult = patientEntry.getResult()
             await arduinoSerialPort.emitter("end")
+            const measurementResult = patientEntry.getResult()
             setTimeout(() => {
                 socket.emit("result", measurementResult)
             }, 500)
@@ -50,7 +50,7 @@ io.on("connection", (socket: Socket) => {
         }
     })
 
-    socket.on("disconnect-arduinoSerialPort", async () => {
+    socket.on("disconnect-arduino", async () => {
         try {
             await arduinoSerialPort.disconnect()
         } catch (err) {
@@ -58,7 +58,7 @@ io.on("connection", (socket: Socket) => {
         }
     })
 
-    socket.on("abort", async () => {
+    socket.on("abort-process", async () => {
         try {
             log.debug("Socket: Aborting process")
             patientEntry.cleanUp()

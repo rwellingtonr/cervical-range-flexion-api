@@ -3,11 +3,13 @@ import logger from "@utils/loggers"
 import patientEntry from "./patientEntry"
 
 export function handleEventData(event: string) {
-    if (/Received/.test(event)) return logger.debug(event)
-    logger.debug(event)
-
     event = event.trim()
-    if (event === "tare") return io.emit("tare")
+    if (/Received/.test(event)) return logger.debug(event)
+
+    if (event === "tare") {
+        logger.info("Device is ready to be used")
+        return io.emit("tare")
+    }
 
     handleReceivedValue(event)
 }

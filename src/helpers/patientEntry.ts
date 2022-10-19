@@ -1,4 +1,5 @@
 import type { Movement } from "@entities/patientData"
+import logger from "@utils/loggers"
 
 export interface IPatientEntryHistory {
     patientId: string
@@ -20,11 +21,12 @@ function patientEntry() {
     }
 
     const setScore = (value: number) => {
+        if (!patientData?.score) return
         const { score } = patientData
         if (score.length) {
             const dif = value - score[0]
-            score.push(dif)
-            return
+            logger.info(`score ${score[0]}, received: ${value}, dif: ${dif}`)
+            return score.push(dif)
         }
         score.push(value)
     }
