@@ -1,18 +1,16 @@
 import log from "@utils/loggers"
 import { Socket } from "socket.io"
 import { io } from "@app/index"
-import { arduinoSerialPort } from "./serialPort"
+import arduinoSerialPort from "./serialPort"
 import patientEntry, { IPatientEntryHistory } from "@helpers/patientEntry"
-
-const arduino = arduinoSerialPort()
 
 io.on("connection", (socket: Socket) => {
     log.info(`Socket id: ${socket.id}`)
 
-    socket.on("connect-arduino", async () => {
+    socket.on("connect-arduinoSerialPort", async () => {
         try {
             log.debug("Socket: Connecting")
-            await arduino.connect()
+            await arduinoSerialPort.connect()
             socket.emit("status", { status: "loaded" })
         } catch (err) {
             log.error("Socket:", err)
@@ -23,8 +21,8 @@ io.on("connection", (socket: Socket) => {
     socket.on("start", async ({ patientId, crefito, movement }: IPatientEntryHistory) => {
         try {
             log.debug("Socket: start-measurement")
-            patientEntry.initialSet({ patientId, crefito, movement, score: [0] })
-            await arduino.emitter(movement)
+            patientEntry.initialSet({ patientId, crefito, movement, score: [] })
+            await arduinoSerialPort.emitter(movement)
         } catch (err) {
             log.error("Socket:", err)
             socketMessage("Erro ao iniciar as medições!", "error")
@@ -32,7 +30,7 @@ io.on("connection", (socket: Socket) => {
     })
 
     socket.on("status", () => {
-        const isOnline = arduino.isConnected()
+        const isOnline = arduinoSerialPort.isConnected()
         const status = isOnline ? "loaded" : "disconnected"
         socket.emit("status", { status })
     })
@@ -41,10 +39,10 @@ io.on("connection", (socket: Socket) => {
         try {
             log.debug("Socket: Ending Process")
             const measurementResult = patientEntry.getResult()
-            await arduino.emitter("end")
+            await arduinoSerialPort.emitter("end")
             setTimeout(() => {
                 socket.emit("result", measurementResult)
-            }, 1500)
+            }, 500)
             patientEntry.cleanUp()
         } catch (err) {
             log.error("Socket:", err)
@@ -52,11 +50,19 @@ io.on("connection", (socket: Socket) => {
         }
     })
 
+    socket.on("disconnect-arduinoSerialPort", async () => {
+        try {
+            await arduinoSerialPort.disconnect()
+        } catch (err) {
+            log.error(err)
+        }
+    })
+
     socket.on("abort", async () => {
         try {
             log.debug("Socket: Aborting process")
             patientEntry.cleanUp()
-            await arduino.emitter("abort")
+            await arduinoSerialPort.emitter("abort")
         } catch (err) {
             log.error("Socket:", err)
             socketMessage("Erro ao abortar as medições!", "error")

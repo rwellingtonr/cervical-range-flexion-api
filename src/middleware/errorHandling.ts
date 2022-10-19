@@ -2,7 +2,11 @@ import "express-async-errors"
 import { Request, Response, NextFunction } from "express"
 import log from "@utils/loggers"
 
-const errorHandling = (err: Error, req: Request, res: Response, next: NextFunction) => {
+interface ErrorHandling {
+    (err: Error, req: Request, res: Response, next: NextFunction): void | Response
+}
+
+const errorHandling: ErrorHandling = (err, req, res, next) => {
     log.fatal(err.message)
     if (err instanceof Error) return next(err)
 

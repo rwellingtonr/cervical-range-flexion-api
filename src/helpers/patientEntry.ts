@@ -15,11 +15,11 @@ function patientEntry() {
         score: [],
     }
 
-    const initialSet = ({ patientId, movement, crefito }: IPatientEntryHistory): void => {
-        Object.assign(patientData, { patientId, crefito, movement, score: [] })
+    const initialSet = ({ patientId, movement, crefito, score }: IPatientEntryHistory) => {
+        Object.assign(patientData, { patientId, crefito, movement, score })
     }
 
-    const setScore = (value: number): void => {
+    const setScore = (value: number) => {
         const { score } = patientData
         if (score.length) {
             const dif = value - score[0]
