@@ -1,6 +1,7 @@
-import "./modules/integration/socket"
-import log from "./utils/loggers"
-import { serverHttp } from "./app"
+import "module-alias/register"
+import "@modules/integration/socket"
+import log from "@utils/loggers"
+import { serverHttp } from "@app/index"
 
 const { PORT } = process.env
 
