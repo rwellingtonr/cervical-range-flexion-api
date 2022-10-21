@@ -1,7 +1,7 @@
 import PhysiotherapistRepo from "./physiotherapistRepo"
-import { Physiotherapist } from "../../entities/physiotherapist"
+import { Physiotherapist } from "@entities/physiotherapist"
 import { randomUUID } from "crypto"
-import { prisma } from "../../database"
+import { prisma } from "@database"
 
 describe("Test the Physiotherapist repository", () => {
     let repo: PhysiotherapistRepo

@@ -42,17 +42,6 @@ lateral é o eixo
 |    morgan    |          logs REST           |
 |    log4js    |         logs gerais          |
 |  serialport  | Conexão serial com o arduino |
-|              |                              |
-|              |                              |
-|              |                              |
-|              |                              |
-|              |                              |
-|              |                              |
-|              |                              |
-|              |                              |
-|              |                              |
-|              |                              |
-|              |                              |
 
 ## Porta Serial
 
@@ -67,13 +56,14 @@ lateral é o eixo
 
 ## Eventos WebSocket
 
-|     Evento      | Enviado/Recebido |                 Descrição                  |
-| :-------------: | :--------------: | :----------------------------------------: |
-|     result      |     Enviado      |       Envia os resultados da medição       |
-|   end-process   |     recebido     |            Finaliza o processo             |
-|      start      |     recebido     |      inicia o processo de averiguação      |
-|     status      |     Enviado      |      Envia o estado atual do Arduino       |
-|     status      |     Recebido     | Verifica o estado da conexão com o Arduino |
-| connect-arduino |     Recebido     |             Conecta o Arduino              |
-|      abort      |     Recebido     | Cancela o processo de análise do paciente  |
-|     message     |     Enviado      |     Mensagens informativas ao sistema      |
+|       Evento       | Enviado/Recebido |                 Descrição                  |
+| :----------------: | :--------------: | :----------------------------------------: |
+|       result       |     Enviado      |       Envia os resultados da medição       |
+|    end-process     |     recebido     |            Finaliza o processo             |
+|       start        |     recebido     |      inicia o processo de averiguação      |
+|       status       |     Enviado      |      Envia o estado atual do Arduino       |
+|       status       |     Recebido     | Verifica o estado da conexão com o Arduino |
+|  connect-arduino   |     Recebido     |             Conecta o Arduino              |
+|       abort        |     Recebido     | Cancela o processo de análise do paciente  |
+|      message       |     Enviado      |     Mensagens informativas ao sistema      |
+| disconnect-arduino |     recebido     |    fecha a conexão serial com o arduino    |

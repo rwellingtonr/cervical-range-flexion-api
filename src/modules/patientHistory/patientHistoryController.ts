@@ -1,7 +1,8 @@
 import { Request, Response } from "express"
-import log from "../../utils/loggers"
+import log from "@utils/loggers"
 import { ICreateEntryDTO } from "./patientHistoryDTO"
 import PatientHistoryService from "./patientHistoryServices"
+import type { Movement } from "@entities/patientData"
 
 export default class PatientHistoryController {
     constructor(private readonly service: PatientHistoryService) {}
@@ -11,8 +12,14 @@ export default class PatientHistoryController {
 
             const firstDate = req.query["firstDate"] as string
             const lastDate = req.query["lastDate"] as string
+            const movement = req.query["movement"] as Movement
 
-            const histories = await this.service.getPatientHistory(patientId, firstDate, lastDate)
+            const histories = await this.service.getPatientHistory({
+                patientId,
+                firstDate,
+                lastDate,
+                movement,
+            })
 
             return res.status(200).json(histories)
         } catch (error) {

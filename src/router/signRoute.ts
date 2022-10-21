@@ -1,5 +1,5 @@
 import { Router } from "express"
-import factory from "../modules/login/signInModule"
+import factory from "@modules/login/signInModule"
 
 const router = Router()
 

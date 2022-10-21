@@ -1,4 +1,4 @@
-import { IPatientEntryHistory } from "../../helpers/patientEntry"
+import { IPatientEntryHistory } from "@helpers/patientEntry"
 
 type PatientWithoutScoreArray = Omit<IPatientEntryHistory, "score">
 

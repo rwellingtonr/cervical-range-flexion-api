@@ -1,5 +1,5 @@
 import { Request, Response } from "express"
-import PhysiotherapistRepo from "../../repositories/physiotherapistRepo/physiotherapistRepo"
+import PhysiotherapistRepo from "@repositories/physiotherapistRepo/physiotherapistRepo"
 import PhysiotherapistController from "./physiotherapistController"
 import PhysiotherapistService from "./physiotherapistService"
 

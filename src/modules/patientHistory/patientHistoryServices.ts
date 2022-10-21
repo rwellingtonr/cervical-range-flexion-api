@@ -1,7 +1,9 @@
-import { PatientData } from "../../entities/patientData"
-import { IPatientDataRepo } from "../../repositories/repositoriesInterface"
-import log from "../../utils/loggers"
+import { PatientData } from "@entities/patientData"
+import { IPatientDataRepo } from "@repositories/repositoriesInterface"
+import log from "@utils/loggers"
+import { capitalize } from "@utils/capitalize"
 import { ICreateEntryDTO } from "./patientHistoryDTO"
+import { IPatientHistorySimplified, IRetrievePatientHistory } from "./patientHistoryInterface"
 export default class PatientHistoryService {
     private fistDay: Date
     private lastDay: Date
@@ -22,20 +24,29 @@ export default class PatientHistoryService {
         }
     }
 
-    private toLocalDateString(patientData: PatientData[]) {
+    private formatHistory(patientData: IPatientHistorySimplified[]) {
         return patientData.map((data) => ({
             ...data,
+            patient: {
+                name: capitalize(data.patient.name),
+            },
             measurement_date: data.measurement_date.toLocaleDateString(),
         }))
     }
 
-    async getPatientHistory(patientId: string, firstDate: string, lastDate: string) {
+    async getPatientHistory({ patientId, firstDate, lastDate, movement }: IRetrievePatientHistory) {
         log.info("Getting patient history")
 
         this.setDate(firstDate, lastDate)
+        const movementToFilter = movement ? movement : "flexion"
 
-        const data = await this.repository.history(patientId, this.fistDay, this.lastDay)
-        return this.toLocalDateString(data)
+        const data = await this.repository.history(
+            patientId,
+            this.fistDay,
+            this.lastDay,
+            movementToFilter
+        )
+        return this.formatHistory(data)
     }
 
     async appendPatientMeasurements({ movement, patientId, crefito, maxScore }: ICreateEntryDTO) {

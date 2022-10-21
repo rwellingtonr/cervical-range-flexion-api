@@ -1,4 +1,4 @@
-import { hashPassword } from "../utils/bcrypt"
+import { hashPassword } from "@utils/bcrypt"
 
 export class Physiotherapist {
     id?: string

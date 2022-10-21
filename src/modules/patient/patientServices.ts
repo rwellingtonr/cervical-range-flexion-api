@@ -1,7 +1,7 @@
-import { Patient } from "../../entities/patient"
-import PatientRepo from "../../repositories/patient/patientRepo"
-import { capitalize } from "../../utils/capitalize"
-import log from "../../utils/loggers"
+import { Patient } from "@entities/patient"
+import PatientRepo from "@repositories/patient/patientRepo"
+import { capitalize } from "@utils/capitalize"
+import log from "@utils/loggers"
 
 export default class PatientServices {
     constructor(private patientRepo: PatientRepo) {}

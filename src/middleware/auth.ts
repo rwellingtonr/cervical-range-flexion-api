@@ -1,13 +1,13 @@
 import { Request, Response, NextFunction } from "express"
 import { verify } from "jsonwebtoken"
-import log from "../utils/loggers"
+import log from "@utils/loggers"
 
 export const ensureAuthenticated = (req: Request, res: Response, next: NextFunction) => {
     try {
         const authToken = req.headers.authorization
         if (!authToken) {
             return res.status(401).json({
-                message: "token.invalid",
+                message: "token invalid",
             })
         }
 
@@ -17,6 +17,6 @@ export const ensureAuthenticated = (req: Request, res: Response, next: NextFunct
         return next()
     } catch (err) {
         log.error(`Token inválido ${err}`)
-        return res.status(401).json({ message: "token.expired" })
+        return res.status(403).json({ message: "token expired" })
     }
 }

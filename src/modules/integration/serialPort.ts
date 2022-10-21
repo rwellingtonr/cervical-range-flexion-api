@@ -1,10 +1,10 @@
-import log from "../../utils/loggers"
-import { SerialPort, ReadlineParser } from "serialport"
-import { io } from "../../app"
 import type { EmitterStrings } from "./integrationInterfaces"
-import patientEntry from "../../helpers/patientEntry"
+import log from "@utils/loggers"
+import { SerialPort, ReadlineParser } from "serialport"
+import { io } from "@app/index"
+import { handleEventData } from "@helpers/eventReceiver"
 
-export const arduinoSerialPort = () => {
+const arduinoSerialPort = (() => {
     let serialPort: SerialPort
     let parser: ReadlineParser
 
@@ -56,27 +56,22 @@ export const arduinoSerialPort = () => {
         }
     }
 
+    function disconnect() {
+        log.info("Closing serial port...")
+        return new Promise<string>((resolve, reject) => {
+            serialPort.close((err) => {
+                if (err) return reject(err)
+                return resolve("done")
+            })
+        })
+    }
+
     return {
         connect,
         emitter,
         isConnected,
+        disconnect,
     }
-}
+})()
 
-function handleEventData(event: string) {
-    if (/Received/.test(event)) return log.debug(event)
-    log.debug(event)
-
-    event = event.trim()
-    if (event === "tare") return io.emit("tare")
-
-    handleReceivedValue(event)
-}
-
-function handleReceivedValue(event: string) {
-    const [, value] = event.split("Value: ")
-    const score = Math.abs(+value)
-
-    io.emit("measurement", { score })
-    patientEntry.setScore(score)
-}
+export default arduinoSerialPort
