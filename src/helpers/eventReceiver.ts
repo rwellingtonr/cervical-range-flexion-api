@@ -16,8 +16,8 @@ export function handleEventData(event: string) {
 
 function handleReceivedValue(event: string) {
     const [, value] = event.split("Value: ")
-    const score = Math.abs(+value)
+    const realScore = Math.abs(+value)
 
-    io.emit("measurement", { score })
-    patientEntry.setScore(score)
+    const relativeScore = patientEntry.setScore(realScore)
+    io.emit("measurement", { score: relativeScore })
 }
