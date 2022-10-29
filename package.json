@@ -30,6 +30,7 @@
         "@types/jest": "^28.1.6",
         "@types/jsonwebtoken": "^8.5.8",
         "@types/log4js": "^2.3.5",
+        "@types/module-alias": "^2.0.1",
         "@types/morgan": "^1.9.3",
         "@types/node": "^16.11.45",
         "@types/serialport": "^8.0.2",
@@ -46,21 +47,10 @@
         "tsconfig-paths": "^4.1.0",
         "typescript": "^4.8.4"
     },
-    "_moduleAliases": {
-        "@app": "dist/app",
-        "@config": "dist/config",
-        "@database": "dist/database",
-        "@entities": "dist/entities",
-        "@helpers": "dist/helpers",
-        "@middleware": "dist/middleware",
-        "@modules": "dist/modules",
-        "@router": "dist/router",
-        "@repositories": "dist/repositories",
-        "@utils": "dist/utils"
-    },
+  
     "scripts": {
         "dev": "tsnd -r tsconfig-paths/register --cls --exit-child --rs --transpile-only -- src/server.ts",
-        "start": "node dist/server.js",
+        "start": "pm2 start ecosystem.config.js",
         "build": "rm -rf dist && tsc -p tsconfig.json",
         "format": "prettier --write \"src/**/*.ts\" && yarn lint",
         "lint": "eslint \"src/**/*.ts\" --fix",
