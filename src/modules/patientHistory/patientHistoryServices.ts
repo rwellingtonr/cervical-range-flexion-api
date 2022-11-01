@@ -4,6 +4,7 @@ import log from "@utils/loggers"
 import { capitalize } from "@utils/capitalize"
 import { ICreateEntryDTO } from "./patientHistoryDTO"
 import { IPatientHistorySimplified, IRetrievePatientHistory } from "./patientHistoryInterface"
+
 export default class PatientHistoryService {
     private fistDay: Date
     private lastDay: Date
@@ -39,7 +40,7 @@ export default class PatientHistoryService {
 
         this.setDate(firstDate, lastDate)
         const movementToFilter = movement ? movement : "flexion"
-
+        log.debug({ patientId, firstDay: this.fistDay, last: this.lastDay, movementToFilter })
         const data = await this.repository.history(
             patientId,
             this.fistDay,
