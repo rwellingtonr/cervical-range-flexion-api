@@ -8,6 +8,7 @@ export interface IRetrievePatientHistory {
 }
 
 export interface IPatientHistorySimplified {
+    id: string
     measurement_date: Date
     score: number
     movement: string

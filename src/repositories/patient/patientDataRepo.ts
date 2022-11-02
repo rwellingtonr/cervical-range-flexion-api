@@ -13,6 +13,7 @@ export default class PatientDataRepo implements IPatientDataRepo {
                 measurement_date: "asc",
             },
             select: {
+                id: true,
                 measurement_date: true,
                 movement: true,
                 score: true,

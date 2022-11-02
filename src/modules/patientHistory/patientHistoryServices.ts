@@ -47,6 +47,7 @@ export default class PatientHistoryService {
             this.lastDay,
             movementToFilter
         )
+        log.debug(data)
         return this.formatHistory(data)
     }
 
