@@ -57,6 +57,8 @@ const arduinoSerialPort = (() => {
     }
 
     function disconnect() {
+        if (!isConnected()) return
+
         log.info("Closing serial port...")
         return new Promise<string>((resolve, reject) => {
             serialPort.close((err) => {

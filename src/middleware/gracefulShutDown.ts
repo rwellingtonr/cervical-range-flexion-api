@@ -1,15 +1,18 @@
 import { io, serverHttp } from "@app/index"
 import { prisma } from "@database/index"
-import { errorCb } from "@utils/errorCb"
 import arduinoSerialPort from "@modules/integration/serialPort"
 import log from "@utils/loggers"
 
-const gracefulShutDown = (event: string) => {
-    return serverHttp.close(() => {
+const gracefulShutDown = async (event: string) => {
+    try {
         log.warn(`Ending ${process.pid} with event ${event}`)
+        await Promise.all([arduinoSerialPort.disconnect(), prisma.$disconnect()])
+    } catch (error) {
+        log.error(error)
+    }
+
+    return serverHttp.close(() => {
         io.close()
-        arduinoSerialPort.disconnect().catch(errorCb)
-        prisma.$disconnect().catch(errorCb)
         log.warn("All process has been closed!")
         process.exit(0)
     })
