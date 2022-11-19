@@ -52,7 +52,7 @@ export default class PatientHistoryService {
     }
 
     async appendPatientMeasurements({ movement, patientId, crefito, maxScore }: ICreateEntryDTO) {
-        log.info("Adding history")
+        log.info("Adding history", { movement, patientId, crefito, maxScore })
 
         const patientData = new PatientData({
             movement,

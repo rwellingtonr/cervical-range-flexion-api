@@ -40,7 +40,7 @@ const arduinoSerialPort = (() => {
     }
     function emitter(payload: EmitterStrings) {
         return new Promise((resolve, reject) => {
-            log.debug(`Passou aqui o evento: ${payload}`)
+            log.debug(`Enviado o evento: ${payload}`)
             serialPort.write(payload, "utf-8", (err: Error) => {
                 if (err) return reject(err)
                 resolve(payload)
